@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+# Authentication
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'omniauth'
 gem 'omniauth-oauth2', '~> 1.3.1'
@@ -8,8 +9,13 @@ gem 'omniauth-twitter'
 gem 'omniauth-facebook'
 gem 'httparty'
 
+# Styling
 gem 'bootstrap-sass'
 gem "font-awesome-rails"
+
+# Web Scraping
+gem 'crack', '~> 0.4.3'
+gem 'rest-client', '~> 1.8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
