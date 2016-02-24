@@ -8,4 +8,14 @@
       <%= fa_icon "search" %>
     </button>
   </span>
+
+  <ul>
+    <% @candidates.each do |cand| %>
+      <% if cand.name.split(" ").length > 2 %>
+        <li><%= link_to cand.name.split(" ")[1].titlecase + " " + cand.name.split(" ")[0].titlecase, candidate_path(cand.id) %> (<%= cand.year %>)</li>
+      <% elsif cand.name.split(" ").length == 2 %>
+        <li><%= cand.name.reverse.titlecase %> (<%= cand.year %>)</li>
+      <% end %>
+    <% end %> 
+  </ul>
 </div>

@@ -1,0 +1,15 @@
+<h1><%= @candidate.name.split(" ")[1].titlecase + " " + @candidate.name.split(" ")[0].titlecase %> 
+  <% if @candidate.office != nil %> 
+    (<%= @candidate.office.titlecase %> Campaign)
+  <% elsif @candidate.court != nil %> 
+    (<%= @candidate.court.titlecase %> Campaign)
+  <% elsif @candidate.pos != nil %> 
+    (<%= @candidate.pos.titlecase %> Campaign)
+  <% end %> 
+  </h1>
+<h2><%= @candidate.contributions.count %> Contributions to his <%= @candidate.year %> campaign. </h2>
+
+<% @candidate.contributions.each do |cont| %> 
+  <h4><%= cont.contributor.name %> gave <%= number_to_currency(cont.amount) %> on <%= cont.date %></h4>
+<% end %>
+

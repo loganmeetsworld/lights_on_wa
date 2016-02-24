@@ -3,8 +3,10 @@ require 'nokogiri'
 require 'restclient'
 require 'open-uri'
 require 'fileutils'
+require 'csv'
 
-offices = ["sw_candidates", "leg_candidates", "jud_candidates", "loc_candidates"]
+# took out , "loc_candidates"
+offices = ["sw_candidates", "leg_candidates", "jud_candidates"]
 
 pages = Array.new
 
@@ -28,7 +30,7 @@ offices.each do |office|
   end
 end
 
-# # ids now written to db
+# ids now written to db
 # ids = Hash.new {|h,k| h[k] = [] }
 
 # pages.each do |page|
@@ -39,6 +41,9 @@ end
 #     ids[pdc_id] << [year, type]
 #   end
 # end
+
+# f = File.new("ids", "w")
+# f << ids
 
 pages.each do |page|
   if !(page.css('tbody').children.last.text == "No records to display.")
@@ -52,34 +57,34 @@ pages.each do |page|
         when "statewide"
           office = child.children[2].text
           party  = child.children[3].text
-          raised = child.children[4].text[1..-1].to_f
-          spent  = child.children[5].text[1..-1].to_f
-          debt   = child.children[6].text[1..-1].to_f
+          raised = child.children[4].text[1..-1].gsub(",", "").to_f
+          spent  = child.children[5].text[1..-1].gsub(",", "").to_f
+          debt   = child.children[6].text[1..-1].gsub(",", "").to_f
           Candidate.create(pdc_id: pdc_id, name: name, year: year, office: office, party: party, raised: raised, spent: spent, debt: debt)
         when "legislative"
           dist   = child.children[2].text
           pos    = child.children[3].text
           party  = child.children[4].text
-          raised = child.children[5].text[1..-1].to_f
-          spent  = child.children[6].text[1..-1].to_f
-          debt   = child.children[7].text[1..-1].to_f
+          raised = child.children[5].text[1..-1].gsub(",", "").to_f
+          spent  = child.children[6].text[1..-1].gsub(",", "").to_f
+          debt   = child.children[7].text[1..-1].gsub(",", "").to_f
           Candidate.create(pdc_id: pdc_id, name: name, year: year, dist: dist, pos: pos, party: party, raised: raised, spent: spent, debt: debt)
         when "judicial"
           court  = child.children[2].text
           pos    = child.children[4].text
-          raised = child.children[5].text[1..-1].to_f
-          spent  = child.children[6].text[1..-1].to_f
-          debt   = child.children[7].text[1..-1].to_f
+          raised = child.children[5].text[1..-1].gsub(",", "").to_f
+          spent  = child.children[6].text[1..-1].gsub(",", "").to_f
+          debt   = child.children[7].text[1..-1].gsub(",", "").to_f
           Candidate.create(pdc_id: pdc_id, name: name, year: year, court: court, pos: pos, raised: raised, spent: spent, debt: debt)
-        when "local"
-          locality = child.children[2].text
-          office   = child.children[3].text
-          pos      = child.children[4].text
-          party    = child.children[5].text
-          raised   = child.children[6].text[1..-1].to_f
-          spent    = child.children[7].text[1..-1].to_f
-          debt     = child.children[8].text[1..-1].to_f
-          Candidate.create(pdc_id: pdc_id, name: name, year: year, locality: locality, office: office, pos: pos, party: party, raised: raised, spent: spent, debt: debt)
+        # when "local"
+        #   locality = child.children[2].text
+        #   office   = child.children[3].text
+        #   pos      = child.children[4].text
+        #   party    = child.children[5].text
+        #   raised   = child.children[6].text[1..-1].gsub(",", "").to_f
+        #   spent    = child.children[7].text[1..-1].gsub(",", "").to_f
+        #   debt     = child.children[8].text[1..-1].gsub(",", "").to_f
+        #   Candidate.create(pdc_id: pdc_id, name: name, year: year, locality: locality, office: office, pos: pos, party: party, raised: raised, spent: spent, debt: debt)
         end
       end
     end
@@ -88,56 +93,71 @@ end
 
 def read_contributors(url)
   encoding  = "ISO-8859-1"
-  f = File.new("csvs/#{url.split("type=")[1].split("&")[0] + url.split("year=")[1].split("&")[0]}", "w")
-  my_header = CSV.parse(open(url, "rb:#{encoding}").read).drop(4).first
-  data      = CSV.parse(open(url, "rb:#{encoding}").read, :headers => my_header).drop(5)
+  begin
+    my_header = CSV.parse(open(url, "rb:#{encoding}").read).drop(4).first
+    data      = CSV.parse(open(url, "rb:#{encoding}").read, :headers => my_header).drop(5)
+    f = File.new("csvs/#{url.split("param=")[1].split("===")[0] + url.split("type=")[1].split("&")[0] + url.split("year=")[1].split("&")[0] + url.split("tab=")[1].split("&")[0]}", "w")
 
-  f << data
-  return data
+    f << data
+    return data
+  rescue CSV::MalformedCSVError
+    puts "rescued a malformed CSV"
+  end
 end
 
 ids = eval(File.read("ids"))
 
-ids.each do |key, elections|
-  elections.each do |election|
-    url = "http://www.pdc.wa.gov/MvcQuerySystem/CandidateData/excel?param=#{key}====&year=#{election[0]}&tab=contributions&type=#{election[1]}&page=1&orderBy=&groupBy=&filterBy="
+contribution_types = ["contributions", "inkind", "expenditures"]
 
-    puts url
+contribution_types.each do |contribution_type|
+  ids.each do |key, elections|
+    elections.each do |election|
+      url = "http://www.pdc.wa.gov/MvcQuerySystem/CandidateData/excel?param=#{key}====&year=#{election[0]}&tab=#{contribution_type}&type=#{election[1]}&page=1&orderBy=&groupBy=&filterBy="
 
-    contributor_array  = []
-    contribution_array = []
-    csv = read_contributors(url)
+      puts url
+      puts contribution_type
+      puts key
+      puts election
 
-    csv.each do |row|
-      contributor_hash = {
-        name:       row[0],
-        city:       row[4],
-        state:      row[5],
-        zip:        row[6],
-        employer:   row[7],
-        occupation: row[8],
-      }
+      contributor_array  = []
+      contribution_array = []
+      csv = read_contributors(url)
 
-      contributor_array.push(contributor_hash)
-    end
+      if !(csv == nil)
+        csv.each do |row|
+          contributor_hash = {
+            name:       row[0],
+            city:       row[4],
+            state:      row[5],
+            zip:        row[6],
+            employer:   row[7],
+            occupation: row[8],
+          }
 
-    contributor_array.each do |cont|
-      Contributor.create(cont)
-    end
+          contributor_array.push(contributor_hash)
+        end
 
-    csv.each do |row|
-      contribution_hash = {
-        date:           row[1],
-        amount:         row[2],
-        candidate_id:   Candidate.where(pdc_id: key, year: election[0])[0].id,
-        contributor_id: Contributor.find_by(name: row[0]).id
-      }
+        contributor_array.each do |cont|
+          Contributor.create(cont)
+        end
 
-      contribution_array.push(contribution_hash)
-    end
+        csv.each do |row|
+          contribution_hash = {
+            date:           row[1],
+            amount:         row[2],
+            description:    row[9],
+            cont_type:      contribution_type,
+            candidate_id:   Candidate.where(pdc_id: key, year: election[0])[0].id,
+            contributor_id: Contributor.find_by(name: row[0]).id
+          }
 
-    contribution_array.each do |cont|
-      Contribution.create(cont)
+          contribution_array.push(contribution_hash)
+        end
+
+        contribution_array.each do |cont|
+          Contribution.create(cont)
+        end
+      end
     end
   end
 end

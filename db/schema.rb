@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223023238) do
+ActiveRecord::Schema.define(version: 20160224181303) do
 
   create_table "candidates", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(version: 20160223023238) do
     t.integer  "amount"
     t.string   "candidate_id"
     t.string   "contributor_id"
+    t.string   "cont_type"
+    t.string   "description"
   end
 
   create_table "contributors", force: :cascade do |t|
