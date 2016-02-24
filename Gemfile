@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'pg'
+
 # Authentication
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'omniauth'
@@ -12,6 +14,7 @@ gem 'httparty'
 # Styling
 gem 'bootstrap-sass'
 gem "font-awesome-rails"
+gem 'pure-css-rails', '~> 0.6.0'
 
 # Web Scraping
 gem 'crack', '~> 0.4.3'

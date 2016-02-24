@@ -11,43 +11,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160222191720) do
+ActiveRecord::Schema.define(version: 20160223023238) do
 
   create_table "candidates", force: :cascade do |t|
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "pdc_id"
     t.string   "name"
-    t.string   "cand_id"
-    t.string   "party"
+    t.string   "year"
     t.string   "office"
-    t.integer  "total_raised"
-    t.integer  "total_spent"
+    t.string   "party"
+    t.integer  "raised"
+    t.integer  "spent"
     t.integer  "debt"
-    t.integer  "cash"
-    t.integer  "in_kind"
-    t.integer  "anon"
-    t.integer  "personal"
-    t.integer  "misc"
-    t.integer  "small"
+    t.integer  "ind_spend"
+    t.integer  "ind_opp"
+    t.string   "dist"
+    t.string   "pos"
+    t.string   "court"
+    t.string   "locality"
   end
 
   create_table "contributions", force: :cascade do |t|
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "contributor"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.string   "date"
     t.integer  "amount"
+    t.string   "candidate_id"
+    t.string   "contributor_id"
+  end
+
+  create_table "contributors", force: :cascade do |t|
+    t.string   "name"
     t.string   "city"
     t.string   "state"
     t.string   "zip"
     t.string   "employer"
     t.string   "occupation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "elections", force: :cascade do |t|
     t.string   "year"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "office_type"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "users", force: :cascade do |t|
