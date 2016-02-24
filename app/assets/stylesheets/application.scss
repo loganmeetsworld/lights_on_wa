@@ -1,20 +1,35 @@
+@import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono|News+Gothic|Inconsolata|Droid+Sans|Roboto|Cabin|Open+Sans|Raleway|Poiret+One|Lato');
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
 
-.navbar-default .navbar-brand a {
-    color: #000;
-    font-family: "Muli",sans-serif;
-    font-size: 28px;
+h2 {
+  text-align: center;
 }
 
-.navbar-default .navbar-brand .sub-credit a {
-    color: #666;
-    font-family: "Muli",sans-serif;
-    font-size: 12px;
+nav {
+  font-family: Cabin;
+}
+
+.navbar-default .navbar-brand a {
+  color: #000;
+  font-family: Cabin,sans-serif;
+  font-size: 30px;
+}
+
+.navbar-default .navbar-brand .sub-credit {
+  color: #666;
+  font-family: "Muli",sans-serif;
+  font-size: 14px;
 }
 
 .fa-lightbulb-o {
   color: black;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: orange;
+}
+
+.fa-search {
+  margin-bottom: 3px;
 }

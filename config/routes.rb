@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources 'candidates'
+
+  resources 'users', only: :show
 end

@@ -2,13 +2,17 @@ source 'https://rubygems.org'
 
 gem 'pg'
 
+# Search engine
+gem 'sunspot_rails'
+gem 'sunspot_solr'
+
 # Authentication
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'omniauth'
 gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'omniauth-github'
 gem 'omniauth-twitter'
-gem 'omniauth-facebook'
+gem 'omniauth-gplus', '~> 2.0'
 gem 'httparty'
 
 # Styling

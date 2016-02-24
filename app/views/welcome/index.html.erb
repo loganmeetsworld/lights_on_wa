@@ -1,21 +1,23 @@
+<h2>Explore Campaign Finance in Washington State</h2>
 <div class="row">
-  <h1>Lights On Washington</h1>
-  <h4>Explore campaign finance in Washington State.</h4>
+  <div class="col-md-8 col-md-offset-2">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search for candidates.">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button"><%= fa_icon "search" %></button>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+<br />
 
-  <input type="text" class=" search-query form-control" placeholder="Search candidates" />
-  <span class="input-group-btn">
-    <button class="btn" type="button">
-      <%= fa_icon "search" %>
-    </button>
-  </span>
+<ul>
+  <% @candidates.each do |cand| %>
+    <% if cand.name.split(" ").length > 2 %>
+      <li><%= link_to cand.name.split(" ")[1].titlecase + " " + cand.name.split(" ")[0].titlecase, candidate_path(cand.id) %> (<%= cand.year %>)</li>
+    <% elsif cand.name.split(" ").length == 2 %>
+      <li><%= cand.name.reverse.titlecase %> (<%= cand.year %>)</li>
+    <% end %>
+  <% end %> 
+</ul>
 
-  <ul>
-    <% @candidates.each do |cand| %>
-      <% if cand.name.split(" ").length > 2 %>
-        <li><%= link_to cand.name.split(" ")[1].titlecase + " " + cand.name.split(" ")[0].titlecase, candidate_path(cand.id) %> (<%= cand.year %>)</li>
-      <% elsif cand.name.split(" ").length == 2 %>
-        <li><%= cand.name.reverse.titlecase %> (<%= cand.year %>)</li>
-      <% end %>
-    <% end %> 
-  </ul>
-</div>
