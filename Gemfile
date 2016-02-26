@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 # Search engine
 gem 'rails-simple-search'
 
+# cron jobs
+gem 'whenever', :require => false
+
 # Authentication
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'omniauth'
