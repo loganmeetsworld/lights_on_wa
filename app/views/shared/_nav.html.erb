@@ -18,6 +18,7 @@
           <li class=""><a href="/login/"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
         <% else %>
           <li class=""><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+          <li class=""><%= link_to "Account", user_path(current_user) %></li>
         <% end %>
         <li class=""><a href="/about/"><i class="fa fa-info-circle fa-fw"></i> About</a></li>
       </ul>

@@ -1,10 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'pg'
-
 # Search engine
-gem 'sunspot_rails'
-gem 'sunspot_solr'
+gem 'rails-simple-search'
 
 # Authentication
 gem 'dotenv-rails', :groups => [:development, :test]
@@ -12,13 +9,14 @@ gem 'omniauth'
 gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'omniauth-github'
 gem 'omniauth-twitter'
-gem 'omniauth-gplus', '~> 2.0'
+gem 'omniauth-google-oauth2'
 gem 'httparty'
 
 # Styling
 gem 'bootstrap-sass'
 gem "font-awesome-rails"
 gem 'pure-css-rails', '~> 0.6.0'
+gem 'bootstrap-social-rails'
 
 # Web Scraping
 gem 'crack', '~> 0.4.3'
@@ -67,6 +65,8 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'hirb'
+  gem 'factory_girl_rails'
+  gem 'simplecov', :require => false
 end
 
 group :development do

@@ -7,9 +7,24 @@
     (<%= @candidate.pos.titlecase %> Campaign)
   <% end %> 
   </h1>
-<h2><%= @candidate.contributions.count %> Contributions to his <%= @candidate.year %> campaign. </h2>
+<h2><%= @candidate.contributions.count %> Contributions to their <%= @candidate.year %> campaign. </h2>
 
-<% @candidate.contributions.each do |cont| %> 
-  <h4><%= cont.contributor.name %> gave <%= number_to_currency(cont.amount) %> on <%= cont.date %></h4>
+<% @candidate.contributions.take(10).each do |cont| %> 
+  <h3>Cash Contributions</h3>
+  <% if cont.cont_type == "contributions" %>
+    <h4><%= cont.name %> gave <%= number_to_currency(cont.amount) %> on <%= cont.date %></h4>
+  <% end %>
+  <h3>Inkind Contributions</h3>
+  <% if cont.cont_type == "inkind" %>
+    <h4><%= cont.name %> gave <%= number_to_currency(cont.amount) %> on <%= cont.date %> for <%= cont.description %></h4>
+  <% end %>
 <% end %>
 
+<% if flash[:error] %>
+  <p class='error'><%=h flash[:error] %></p>
+<% end %>
+<% if flash[:notice] %>
+  <p class='notice'><%=h flash[:notice] %></p>
+<% end %>
+
+<%= button_to "Save Candidate", candidate_path(@candidate), method: :post, class: "btn btn-primary" %>

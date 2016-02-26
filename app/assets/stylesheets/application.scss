@@ -4,8 +4,18 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono|News+Gothic|Inconsolata|Droid+Sans|Roboto|Cabin|Open+Sans|Raleway|Poiret+One|Lato');
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
 
+body {
+  font-family: Cabin;
+}
+
 h2 {
   text-align: center;
+}
+
+.center #my-signin2 {
+  text-align: center;
+  margin: auto;
+  display: block;
 }
 
 nav {
@@ -32,4 +42,16 @@ nav {
 
 .fa-search {
   margin-bottom: 3px;
+}
+
+.preferred-login {
+  background: #f9f9f9;
+  width: 258px;
+  border: 1px solid #d4d4d4;
+  box-shadow: -1px 1px #f2f2f2;
+  color: #888;
+  padding: 7px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  height: 30px;
 }

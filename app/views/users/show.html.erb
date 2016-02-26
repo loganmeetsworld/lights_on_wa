@@ -1,2 +1,9 @@
 <h1>Your Account Page</h1>
 <h3>View All Candidates Here</h3>
+
+<% @candidates.each do |candidate| %>
+  <%= candidate.name %>
+  <%= candidate.contributions.each do |cont| %>
+    <%= cont.name %>: <%= cont.amount %>
+  <% end %>
+<% end %> 

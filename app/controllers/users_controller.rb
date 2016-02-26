@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
   def show
-    @candidates = User.find(params[:id]).candidates
+    @candidates = current_user.candidates
   end
 end
