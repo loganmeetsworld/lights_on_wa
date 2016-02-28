@@ -125,77 +125,77 @@
 
 # read_out_csvs(eval(File.read("ids")))
 
-require 'open-uri'
+# require 'open-uri'
 
-def parse_csv(file)
-  encoding  = "ISO-8859-1"
-  begin
-    my_header = CSV.parse(open(file, "rb:#{encoding}").read).drop(4).first
-    data      = CSV.parse(open(file, "rb:#{encoding}").read, :headers => my_header).drop(5)
-  rescue SocketError
-    puts "socket error"
-  rescue CSV::MalformedCSVError
-    puts "rescued a malformed CSV"
-  end
+# def parse_csv(file)
+#   encoding  = "ISO-8859-1"
+#   begin
+#     my_header = CSV.parse(open(file, "rb:#{encoding}").read).drop(4).first
+#     data      = CSV.parse(open(file, "rb:#{encoding}").read, :headers => my_header).drop(5)
+#   rescue SocketError
+#     puts "socket error"
+#   rescue CSV::MalformedCSVError
+#     puts "rescued a malformed CSV"
+#   end
 
-  return data
-end
+#   return data
+# end
 
-def create_contributions(dir)
-  Dir.foreach(dir) do |item|
-    contribution_array = []
+# def create_contributions(dir)
+#   Dir.foreach(dir) do |item|
+#     contribution_array = []
     
-    next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
-    puts item
+#     next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
+#     puts item
 
-    key = nil
-    election = nil
+#     key = nil
+#     election = nil
 
-    csv = parse_csv('csvs/' + item)
-    if !(csv == nil)
+#     csv = parse_csv('csvs/' + item)
+#     if !(csv == nil)
 
-      if item.split("statewide").length > 1
-        key = item.split("statewide")[0]
-        election = item.split("statewide")[1].split(/(\d+)/)[1]
-      elsif item.split("legislative").length > 1
-        key = item.split("legislative")[0]
-        election = item.split("legislative")[1].split(/(\d+)/)[1]
-      elsif item.split('judicial').length > 1
-        key = item.split("judicial")[0]
-        election = item.split("judicial")[1].split(/(\d+)/)[1]
-      else
-        puts "THIS WAS NIL"
-        exit!
-      end
+#       if item.split("statewide").length > 1
+#         key = item.split("statewide")[0]
+#         election = item.split("statewide")[1].split(/(\d+)/)[1]
+#       elsif item.split("legislative").length > 1
+#         key = item.split("legislative")[0]
+#         election = item.split("legislative")[1].split(/(\d+)/)[1]
+#       elsif item.split('judicial').length > 1
+#         key = item.split("judicial")[0]
+#         election = item.split("judicial")[1].split(/(\d+)/)[1]
+#       else
+#         puts "THIS WAS NIL"
+#         exit!
+#       end
 
-      csv.each do |row|
-        contribution_hash = {
-          name:         row[0],
-          city:         row[4],
-          state:        row[5],
-          zip:          row[6],
-          employer:     row[7],
-          occupation:   row[8],
-          date:         row[1],
-          amount:       row[2],
-          description:  row[9],
-          cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
-          candidate_id: Candidate.where(pdc_id: key, year: election)[0].id,
-        }
+#       csv.each do |row|
+#         contribution_hash = {
+#           name:         row[0],
+#           city:         row[4],
+#           state:        row[5],
+#           zip:          row[6],
+#           employer:     row[7],
+#           occupation:   row[8],
+#           date:         row[1],
+#           amount:       row[2],
+#           description:  row[9],
+#           cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
+#           candidate_id: Candidate.where(pdc_id: key, year: election)[0].id,
+#         }
 
-        contribution_array.push(contribution_hash)
-      end
+#         contribution_array.push(contribution_hash)
+#       end
 
-      puts contribution_array.count
-      puts key
-      puts election
-      puts item
+#       puts contribution_array.count
+#       puts key
+#       puts election
+#       puts item
 
-      contribution_array.each do |cont|
-        Contribution.create(cont)
-      end
-    end
-  end
-end
+#       contribution_array.each do |cont|
+#         Contribution.create(cont)
+#       end
+#     end
+#   end
+# end
 
-create_contributions('csvs/')
+# create_contributions('csvs/')

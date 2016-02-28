@@ -1,7 +1,7 @@
 <div class="container">
   <div class='example'>
     <div class="title">
-      <h1>Start Exploring Campaign Finance in WA State</h1>
+      <h2>Start Exploring Campaign Finance in WA State</h2>
     </div>
     <h4><span id="found" class="label label-default"><%= fa_icon "book" %></span></h4>
     <table id="stream_table" class='table table-striped table-bordered'>
@@ -29,8 +29,8 @@
         <a href="/candidates/{{record.id}}">{{record.name}}</a>
     </td>
     <td>{{record.office}}</td>
-    <td><%= number_to_currency("{{record.raised}}") %></td>
     <td><%= number_to_currency("{{record.spent}}") %></td>
+    <td><%= number_to_currency("{{record.debt}}") %></td>
     <td>{{record.year}}</td>
   </tr>
 </script>

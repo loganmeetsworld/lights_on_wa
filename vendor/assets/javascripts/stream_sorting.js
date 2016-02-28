@@ -1,6 +1,6 @@
 var st; //For debuggin only
 $(document).ready(function() {
-  if ($('h1').text() === "Start Exploring Campaign Finance in WA State") {
+  if ($('h2').text() === "Start Exploring Campaign Finance in WA State") {
     var data = gon.candidates, html = $.trim($("#template").html()), template = Mustache.compile(html);
   } else {
     var data = gon.contributions, html = $.trim($("#template").html()), template = Mustache.compile(html);

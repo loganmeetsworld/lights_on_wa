@@ -8,16 +8,16 @@ body {
   font-family: 'Open Sans';
 }
 
-h2 {
-  text-align: center;
-}
-
 #found {
   margin-bottom: 20px;
 }
 
 #st_search {
   margin-bottom: 20px;
+}
+
+li#login:active {
+ outline: none !important;
 }
 
 .st_per_page {

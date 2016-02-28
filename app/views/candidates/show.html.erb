@@ -1,4 +1,4 @@
-<h1><%= @candidate.name %> (<%= @candidate.year %> <%= @candidate.office %> Race)</h1>
+<h2><%= @candidate.name %> (<%= @candidate.year %> <%= @candidate.office %> Race)</h2>
 <% if current_user %>
   <% if !(current_user.candidates.include?(@candidate)) %>
     <span class="sub-credit visible-lg-inline"><%= button_to "Save Candidate", candidate_path(@candidate), method: :post, class: "btn btn-primary" %></span>
@@ -17,8 +17,8 @@
         <tr>
           <th>#</th>
           <th>Name</th>
-          <th>Amount</th>
-          <th data-sort="raised:desc">Date (*)</th>
+          <th data-sort="amount:desc">Amount</th>
+          <th data-sort="date:desc">Date (*)</th>
           <th>Employer</th>
           <th>Occupation</th>
           <th>City</th>
