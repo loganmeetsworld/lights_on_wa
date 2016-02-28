@@ -21,4 +21,20 @@ def find_candidate_contacts(ids)
   end
 end
 
+require 'money'
+
+def update_candidate_info(candidates)
+  candidates.each do |candidate|
+    if (candidate.name != nil) && (candidate.name != Candidate.unformat_name(candidate.name))
+      candidate.name = Candidate.format_name(candidate.name)
+    end
+    if candidate.office != nil
+      candidate.office = candidate.office.titlecase
+    end
+    candidate.save
+  end
+end
+
+update_candidate_info(Candidate.all)
+
 find_candidate_contacts(ids)

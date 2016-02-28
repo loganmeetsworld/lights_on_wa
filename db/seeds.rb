@@ -145,7 +145,7 @@ def create_contributions(dir)
   Dir.foreach(dir) do |item|
     contribution_array = []
     
-    next if item == '.' or item == '..' or item == '.DS_Store'
+    next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
     puts item
 
     key = nil

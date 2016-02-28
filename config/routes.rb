@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'welcome#index'
+  root 'candidates#index'
   get 'about', :to => "welcome#about", :as => :about
   get 'sessions/new'
   get 'sessions/create'
@@ -8,9 +8,12 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy'
   get '/auth/:provider/callback', :to => 'sessions#create', :as => :auth
 
-  post '/search', :controller => 'welcome', :action => "search"
+  # post '/search', :controller => 'welcome', :action => "search"
 
-  resources 'candidates', only: :show
+  get 'candidates/autocomplete_candidate_name' => 'candidates#index'
+  
+  resources 'candidates'
+
   post 'candidates/:id' => 'candidates#save'
 
   resources 'users', only: :show

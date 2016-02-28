@@ -5,11 +5,23 @@
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
 
 body {
-  font-family: Cabin;
+  font-family: 'Open Sans';
 }
 
 h2 {
   text-align: center;
+}
+
+#found {
+  margin-bottom: 20px;
+}
+
+#st_search {
+  margin-bottom: 20px;
+}
+
+.st_per_page {
+  margin-bottom: 20px;
 }
 
 .center #my-signin2 {
