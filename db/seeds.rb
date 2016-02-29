@@ -1,201 +1,163 @@
-# # Web scraper 
-# require 'nokogiri'
-# require 'restclient'
-# require 'open-uri'
-# require 'fileutils'
-# require 'csv'
+require 'restclient'
+require 'open-uri'
+require 'csv'
 
-# # took out , "loc_candidates"
-# offices = ["sw_candidates", "leg_candidates", "jud_candidates"]
+time = Time.now
 
-# pages = Array.new
+def load_pages
+  offices = ["sw_candidates", "leg_candidates", "jud_candidates"]
 
-# offices.each do |office|
-#   url = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}"
+  pages = Array.new
 
-#   page = Nokogiri::HTML(RestClient.get(url))
-#   years =  page.css('#YearList')[0].text.split("\r\n")
-#   puts url 
+  offices.each do |office|
+    url = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}"
 
-#   years.each do |year|
-#     url_with_year = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}"
-#     page_with_year = Nokogiri::HTML(RestClient.get(url_with_year))
-#     num_pages = (page_with_year.css('.t-status-text').text.split(' ')[-1].to_i / 15.0).ceil
-#     puts num_pages
+    page = Nokogiri::HTML(RestClient.get(url))
+    years =  page.css('#YearList')[0].text.split("\r\n")
+    puts url 
 
-#     (1..num_pages).to_a.each do |n|
-#       page_url = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}&page=#{n}"
-#       pages << Nokogiri::HTML(RestClient.get(page_url))
-#     end
-#   end
-# end
+    years.each do |year|
+      url_with_year = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}"
+      page_with_year = Nokogiri::HTML(RestClient.get(url_with_year))
+      num_pages = (page_with_year.css('.t-status-text').text.split(' ')[-1].to_i / 15.0).ceil
+      puts num_pages
 
-# # ids now written to db
-# # ids = Hash.new {|h,k| h[k] = [] }
+      (1..num_pages).to_a.each do |n|
+        page_url = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}&page=#{n}"
+        pages << Nokogiri::HTML(RestClient.get(page_url))
+      end
+    end
+  end
+  return pages
+end
 
-# # pages.each do |page|
-# #   page.css('td a:contains("Details")').each do |p|
-# #     pdc_id = p['href'].split("param=")[1].split("===")[0]
-# #     year   = p['href'].split("year=")[1].split("&")[0]
-# #     type   = p['href'].split("type=")[1]
-# #     ids[pdc_id] << [year, type]
-# #   end
-# # end
+def create_candidates
+  candidate_array = []
+  pages = load_pages
 
-# # f = File.new("ids", "w")
-# # f << ids
+  pages.each do |page|
+    if !(page.css('tbody').children.last.text == "No records to display.")
+      page.css('tbody').children.each do |child|
+        if (child.children[0].children[0].attributes["href"].value.split("type=")[1] != nil)
+          pdc_id = child.children[0].children[0].attributes["href"].value.split("param=")[1].split("===")[0]
+          year   = child.children[0].children[0].attributes["href"].value.split("year=")[1].split("&")[0]
+          name   = child.children[1].text
 
-# pages.each do |page|
-#   if !(page.css('tbody').children.last.text == "No records to display.")
-#     page.css('tbody').children.each do |child|
-#       if (child.children[0].children[0].attributes["href"].value.split("type=")[1] != nil)
-#         pdc_id = child.children[0].children[0].attributes["href"].value.split("param=")[1].split("===")[0]
-#         year   = child.children[0].children[0].attributes["href"].value.split("year=")[1].split("&")[0]
-#         name   = child.children[1].text
+          case child.children[0].children[0].attributes["href"].value.split("type=")[1]
+          when "statewide"
+            office = child.children[2].text
+            party  = child.children[3].text
+            raised = child.children[4].text[1..-1].gsub(",", "").to_f
+            spent  = child.children[5].text[1..-1].gsub(",", "").to_f
+            debt   = child.children[6].text[1..-1].gsub(",", "").to_f
+            candidate_array.push(Candidate.new(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, office_type: "statewide",party: party, raised: raised, spent: spent, debt: debt))
+          when "legislative"
+            dist   = child.children[2].text
+            pos    = child.children[3].text
+            party  = child.children[4].text
+            raised = child.children[5].text[1..-1].gsub(",", "").to_f
+            spent  = child.children[6].text[1..-1].gsub(",", "").to_f
+            debt   = child.children[7].text[1..-1].gsub(",", "").to_f
+            candidate_array.push(Candidate.new(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, dist: dist, pos: pos, party: party, raised: raised, spent: spent, debt: debt, office_type: "legislative"))
+          when "judicial"
+            office  = child.children[2].text
+            pos    = child.children[4].text
+            raised = child.children[5].text[1..-1].gsub(",", "").to_f
+            spent  = child.children[6].text[1..-1].gsub(",", "").to_f
+            debt   = child.children[7].text[1..-1].gsub(",", "").to_f
+            candidate_array.push(Candidate.new(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, pos: pos, office_type: "judicial", raised: raised, spent: spent, debt: debt))
+          # when "local"
+          #   locality = child.children[2].text
+          #   office   = child.children[3].text
+          #   pos      = child.children[4].text
+          #   party    = child.children[5].text
+          #   raised   = child.children[6].text[1..-1].gsub(",", "").to_f
+          #   spent    = child.children[7].text[1..-1].gsub(",", "").to_f
+          #   debt     = child.children[8].text[1..-1].gsub(",", "").to_f
+          #   candidate_array.push(Candidate.new(pdc_id: pdc_id, name: name, year: year, locality: locality, office: office, pos: pos, party: party, raised: raised, spent: spent, debt: debt))
+          end
+        end
+      end
+    end
+    Candidate.import(candidate_array)
+  end
+  puts "Time to load all Candidates: " + (Time.now - time)
+end
 
-#         case child.children[0].children[0].attributes["href"].value.split("type=")[1]
-#         when "statewide"
-#           office = child.children[2].text
-#           party  = child.children[3].text
-#           raised = child.children[4].text[1..-1].gsub(",", "").to_f
-#           spent  = child.children[5].text[1..-1].gsub(",", "").to_f
-#           debt   = child.children[6].text[1..-1].gsub(",", "").to_f
-#           Candidate.create(pdc_id: pdc_id, name: name, year: year, office: office, party: party, raised: raised, spent: spent, debt: debt)
-#         when "legislative"
-#           dist   = child.children[2].text
-#           pos    = child.children[3].text
-#           party  = child.children[4].text
-#           raised = child.children[5].text[1..-1].gsub(",", "").to_f
-#           spent  = child.children[6].text[1..-1].gsub(",", "").to_f
-#           debt   = child.children[7].text[1..-1].gsub(",", "").to_f
-#           Candidate.create(pdc_id: pdc_id, name: name, year: year, dist: dist, pos: pos, party: party, raised: raised, spent: spent, debt: debt)
-#         when "judicial"
-#           court  = child.children[2].text
-#           pos    = child.children[4].text
-#           raised = child.children[5].text[1..-1].gsub(",", "").to_f
-#           spent  = child.children[6].text[1..-1].gsub(",", "").to_f
-#           debt   = child.children[7].text[1..-1].gsub(",", "").to_f
-#           Candidate.create(pdc_id: pdc_id, name: name, year: year, court: court, pos: pos, raised: raised, spent: spent, debt: debt)
-#         # when "local"
-#         #   locality = child.children[2].text
-#         #   office   = child.children[3].text
-#         #   pos      = child.children[4].text
-#         #   party    = child.children[5].text
-#         #   raised   = child.children[6].text[1..-1].gsub(",", "").to_f
-#         #   spent    = child.children[7].text[1..-1].gsub(",", "").to_f
-#         #   debt     = child.children[8].text[1..-1].gsub(",", "").to_f
-#         #   Candidate.create(pdc_id: pdc_id, name: name, year: year, locality: locality, office: office, pos: pos, party: party, raised: raised, spent: spent, debt: debt)
-#         end
-#       end
-#     end
-#   end
-# end
+def parse_csv(file)
+  encoding  = "ISO-8859-1"
+  begin
+    my_header = CSV.parse(open(file, "rb:#{encoding}")).drop(4).first # is read necessary here? 
+    data      = CSV.parse(open(file, "rb:#{encoding}"), :headers => my_header).drop(5)
+  rescue SocketError
+    puts "socket error"
+  rescue CSV::MalformedCSVError
+    puts "rescued a malformed CSV"
+  end
+  return data
+end
 
-# def save_csvs(url)
-#   encoding  = "ISO-8859-1"
-#   begin
-#     url_data = open(url, "rb:#{encoding}").read()
-#     f = File.new("csvs/#{url.split("param=")[1].split("===")[0] + url.split("type=")[1].split("&")[0] + url.split("year=")[1].split("&")[0] + url.split("tab=")[1].split("&")[0]}", "w")
+def create_contributions(dir)
+  values = nil
+  columns = [:name, :city, :state, :zip, :employer, :occupation, :date, :amount, :description, :cont_type, :candidate_id]
+  contribution_array = []
+  time = Time.now 
 
-#     f << url_data
-#   rescue SocketError
-#     puts "socket error"
-#   rescue CSV::MalformedCSVError
-#     puts "rescued a malformed CSV"
-#   end
-# end
+  Dir.foreach(dir) do |item|
+    puts item
+    time = Time.now
+    next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
 
-# # 14406 times it goes through this loop
-# def read_out_csvs(ids)
-#   contribution_types = ["contributions", "inkind", "expenditures"]
-#   contribution_types.each do |contribution_type|
-#     ids.each do |key, elections|
-#       elections.each do |election|
-#         url = "http://www.pdc.wa.gov/MvcQuerySystem/CandidateData/excel?param=#{key}====&year=#{election[0]}&tab=#{contribution_type}&type=#{election[1]}&page=1&orderBy=&groupBy=&filterBy="
+    key = nil
+    election = nil
 
-#         puts url
-#         puts contribution_type
-#         puts key
-#         puts election
-#         csv = save_csvs(url)
-#       end
-#     end
-#   end
-# end
+    csv = parse_csv('csvs/' + item)
 
-# read_out_csvs(eval(File.read("ids")))
+    if !(csv == nil)
+      if item.split("statewide").length > 1
+        key = item.split("statewide")[0]
+        election = item.split("statewide")[1].split(/(\d+)/)[1]
+      elsif item.split("legislative").length > 1
+        key = item.split("legislative")[0]
+        election = item.split("legislative")[1].split(/(\d+)/)[1]
+      elsif item.split('judicial').length > 1
+        key = item.split("judicial")[0]
+        election = item.split("judicial")[1].split(/(\d+)/)[1]
+      else
+        puts "THIS WAS NIL"
+        exit!
+      end
+      puts csv.length 
 
-# require 'open-uri'
-
-# def parse_csv(file)
-#   encoding  = "ISO-8859-1"
-#   begin
-#     my_header = CSV.parse(open(file, "rb:#{encoding}").read).drop(4).first
-#     data      = CSV.parse(open(file, "rb:#{encoding}").read, :headers => my_header).drop(5)
-#   rescue SocketError
-#     puts "socket error"
-#   rescue CSV::MalformedCSVError
-#     puts "rescued a malformed CSV"
-#   end
-
-#   return data
-# end
-
-# def create_contributions(dir)
-#   Dir.foreach(dir) do |item|
-#     contribution_array = []
+      csv.each do |row|
+        contribution_hash = {
+          name:         row["Contributor"],
+          city:         row[" City"],
+          state:        row[" State"],
+          zip:          row[" Zip"],
+          employer:     row[" Employer"],
+          occupation:   row[" Occupation"],
+          date:         row[" Date"],
+          amount:       row[" Amount"],
+          description:  row[" Description"],
+          cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
+          candidate_id: Candidate.find_by(pdc_id_year: key + election).id
+        }
     
-#     next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
-#     puts item
+        contribution_array.push(Contribution.new(contribution_hash))
+      end
+    end
+    puts "time to load this csv and new conts: " + (Time.now - time).to_s
+  end
+  
+  puts "time to load all csvs and new conts: " + (Time.now - time).to_s
 
-#     key = nil
-#     election = nil
+  puts contribution_array.length
 
-#     csv = parse_csv('csvs/' + item)
-#     if !(csv == nil)
+  time = Time.now
+  Contribution.import(contribution_array)
+  puts "import time: " + (Time.now - time).to_s + "\n\n"
+end
 
-#       if item.split("statewide").length > 1
-#         key = item.split("statewide")[0]
-#         election = item.split("statewide")[1].split(/(\d+)/)[1]
-#       elsif item.split("legislative").length > 1
-#         key = item.split("legislative")[0]
-#         election = item.split("legislative")[1].split(/(\d+)/)[1]
-#       elsif item.split('judicial').length > 1
-#         key = item.split("judicial")[0]
-#         election = item.split("judicial")[1].split(/(\d+)/)[1]
-#       else
-#         puts "THIS WAS NIL"
-#         exit!
-#       end
-
-#       csv.each do |row|
-#         contribution_hash = {
-#           name:         row[0],
-#           city:         row[4],
-#           state:        row[5],
-#           zip:          row[6],
-#           employer:     row[7],
-#           occupation:   row[8],
-#           date:         row[1],
-#           amount:       row[2],
-#           description:  row[9],
-#           cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
-#           candidate_id: Candidate.where(pdc_id: key, year: election)[0].id,
-#         }
-
-#         contribution_array.push(contribution_hash)
-#       end
-
-#       puts contribution_array.count
-#       puts key
-#       puts election
-#       puts item
-
-#       contribution_array.each do |cont|
-#         Contribution.create(cont)
-#       end
-#     end
-#   end
-# end
-
-# create_contributions('csvs/')
+create_candidates()
+create_contributions('csvs/')

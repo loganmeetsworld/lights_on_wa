@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'activerecord-import', '~> 0.11.0'
+
 # Search engine
 gem 'gon'
 
