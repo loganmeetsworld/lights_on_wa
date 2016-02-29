@@ -16,9 +16,4 @@
 !/log/.keep
 /tmp
 .env
-/csvs
-/local_csvs
-pages
-ids
-local_ids
 config/
