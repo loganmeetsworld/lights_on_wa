@@ -88,6 +88,7 @@ def create_contributions(dir)
 
   Dir.foreach(dir) do |item|
     # csv_time = Time.now
+    puts item
     next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
 
     key = nil
