@@ -3,7 +3,7 @@ require 'open-uri'
 
 offices = ["sw_candidates", "leg_candidates", "jud_candidates"]
 
-# ids = Hash.new {|h,k| h[k] = [] }
+ids = Hash.new {|h,k| h[k] = [] }
 pages = Array.new
 
 offices.each do |office|
@@ -26,14 +26,14 @@ offices.each do |office|
   end
 end
 
-# pages.each do |page|
-#   page.css('td a:contains("Details")').each do |p|
-#     pdc_id = p['href'].split("param=")[1].split("===")[0]
-#     year   = p['href'].split("year=")[1].split("&")[0]
-#     type   = p['href'].split("type=")[1]
-#     ids[pdc_id] << [year, type]
-#   end
-# end
+pages.each do |page|
+  page.css('td a:contains("Details")').each do |p|
+    pdc_id = p['href'].split("param=")[1].split("===")[0]
+    year   = p['href'].split("year=")[1].split("&")[0]
+    type   = p['href'].split("type=")[1]
+    ids[pdc_id] << [year, type]
+  end
+end
 
-# f = File.new("ids", "w")
-# f << ids
+f = File.new("ids", "w")
+f << ids

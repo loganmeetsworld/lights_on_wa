@@ -2,11 +2,8 @@ require 'restclient'
 require 'open-uri'
 require 'csv'
 
-time = Time.now
-
 def load_pages
   offices = ["sw_candidates", "leg_candidates", "jud_candidates"]
-
   pages = Array.new
 
   offices.each do |office|
@@ -14,13 +11,11 @@ def load_pages
 
     page = Nokogiri::HTML(RestClient.get(url))
     years =  page.css('#YearList')[0].text.split("\r\n")
-    puts url 
 
     years.each do |year|
       url_with_year = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}"
       page_with_year = Nokogiri::HTML(RestClient.get(url_with_year))
       num_pages = (page_with_year.css('.t-status-text').text.split(' ')[-1].to_i / 15.0).ceil
-      puts num_pages
 
       (1..num_pages).to_a.each do |n|
         page_url = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}&page=#{n}"
@@ -32,7 +27,6 @@ def load_pages
 end
 
 def create_candidates
-  candidate_array = []
   pages = load_pages
 
   pages.each do |page|
@@ -50,7 +44,7 @@ def create_candidates
             raised = child.children[4].text[1..-1].gsub(",", "").to_f
             spent  = child.children[5].text[1..-1].gsub(",", "").to_f
             debt   = child.children[6].text[1..-1].gsub(",", "").to_f
-            candidate_array.push(Candidate.new(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, office_type: "statewide",party: party, raised: raised, spent: spent, debt: debt))
+            Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, office_type: "statewide",party: party, raised: raised, spent: spent, debt: debt)
           when "legislative"
             dist   = child.children[2].text
             pos    = child.children[3].text
@@ -58,30 +52,19 @@ def create_candidates
             raised = child.children[5].text[1..-1].gsub(",", "").to_f
             spent  = child.children[6].text[1..-1].gsub(",", "").to_f
             debt   = child.children[7].text[1..-1].gsub(",", "").to_f
-            candidate_array.push(Candidate.new(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, dist: dist, pos: pos, party: party, raised: raised, spent: spent, debt: debt, office_type: "legislative"))
+            Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, dist: dist, pos: pos, party: party, raised: raised, spent: spent, debt: debt, office_type: "legislative")
           when "judicial"
             office  = child.children[2].text
             pos    = child.children[4].text
             raised = child.children[5].text[1..-1].gsub(",", "").to_f
             spent  = child.children[6].text[1..-1].gsub(",", "").to_f
             debt   = child.children[7].text[1..-1].gsub(",", "").to_f
-            candidate_array.push(Candidate.new(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, pos: pos, office_type: "judicial", raised: raised, spent: spent, debt: debt))
-          # when "local"
-          #   locality = child.children[2].text
-          #   office   = child.children[3].text
-          #   pos      = child.children[4].text
-          #   party    = child.children[5].text
-          #   raised   = child.children[6].text[1..-1].gsub(",", "").to_f
-          #   spent    = child.children[7].text[1..-1].gsub(",", "").to_f
-          #   debt     = child.children[8].text[1..-1].gsub(",", "").to_f
-          #   candidate_array.push(Candidate.new(pdc_id: pdc_id, name: name, year: year, locality: locality, office: office, pos: pos, party: party, raised: raised, spent: spent, debt: debt))
+            Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, pos: pos, office_type: "judicial", raised: raised, spent: spent, debt: debt)
           end
         end
       end
     end
-    Candidate.import(candidate_array)
   end
-  puts "Time to load all Candidates: " + (Time.now - time)
 end
 
 def parse_csv(file)
@@ -101,11 +84,10 @@ def create_contributions(dir)
   values = nil
   columns = [:name, :city, :state, :zip, :employer, :occupation, :date, :amount, :description, :cont_type, :candidate_id]
   contribution_array = []
-  time = Time.now 
+  total_csv_load_time = Time.now 
 
   Dir.foreach(dir) do |item|
-    puts item
-    time = Time.now
+    # csv_time = Time.now
     next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
 
     key = nil
@@ -127,7 +109,6 @@ def create_contributions(dir)
         puts "THIS WAS NIL"
         exit!
       end
-      puts csv.length 
 
       csv.each do |row|
         contribution_hash = {
@@ -147,17 +128,19 @@ def create_contributions(dir)
         contribution_array.push(Contribution.new(contribution_hash))
       end
     end
-    puts "time to load this csv and new conts: " + (Time.now - time).to_s
+    # puts "time to load this csv: " + (Time.now - csv_time).to_s
   end
   
-  puts "time to load all csvs and new conts: " + (Time.now - time).to_s
+  puts "time to load all csvs and new conts: " + (Time.now - total_csv_load_time).to_s
 
-  puts contribution_array.length
-
-  time = Time.now
+  import_time = Time.now
   Contribution.import(contribution_array)
-  puts "import time: " + (Time.now - time).to_s + "\n\n"
+  puts "import time: " + (Time.now - import_time).to_s + "\n\n"
 end
 
+total_time = Time.now
+candidate_time = Time.now
 create_candidates()
+puts "Total time for just candidates seeding: " + (Time.now - candidate_time).to_s
 create_contributions('csvs/')
+puts "Total time for candidates and contributions seeding: " + (Time.now - total_time).to_s

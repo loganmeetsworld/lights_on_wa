@@ -7,6 +7,7 @@ class Candidate < ActiveRecord::Base
   has_many :users, through: :candidates_to_user
   has_many :contributions
   validates_presence_of :name, :pdc_id
+  validates_uniqueness_of :pdc_id_year
 
   def self.search(query)
     where("name like ?", "%#{query}%") 

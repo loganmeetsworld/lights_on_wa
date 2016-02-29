@@ -29,5 +29,4 @@ def read_out_csvs(ids)
   end
 end
 
-
 read_out_csvs(eval(File.read("ids")))

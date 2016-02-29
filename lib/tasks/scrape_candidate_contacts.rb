@@ -21,7 +21,6 @@ def find_candidate_contacts(ids)
   end
 end
 
-require 'money'
 
 def update_candidate_info(candidates)
   candidates.each do |candidate|
@@ -36,5 +35,4 @@ def update_candidate_info(candidates)
 end
 
 update_candidate_info(Candidate.all)
-
 find_candidate_contacts(ids)
