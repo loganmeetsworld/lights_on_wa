@@ -17,6 +17,7 @@
 /tmp
 .env
 /csvs
+/local_csvs
 pages
 ids
 local_ids

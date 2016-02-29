@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 
+# batching db instances
 gem 'activerecord-import', '~> 0.11.0'
+
+# deployment
+gem 'aws-sdk', '~> 2'
 
 # Search engine
 gem 'gon'
@@ -61,7 +65,8 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
 
 group :production do
-  gem 'pg'
+  gem 'mysql2'
+  gem 'unicorn'
   gem 'rails_12factor'
 end
 
