@@ -75,6 +75,7 @@ def parse_csv(file)
   rescue SocketError
     puts "socket error"
   rescue CSV::MalformedCSVError
+    puts file
     puts "rescued a malformed CSV"
   end
   return data
