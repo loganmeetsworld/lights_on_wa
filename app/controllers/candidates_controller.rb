@@ -1,11 +1,11 @@
 class CandidatesController < ApplicationController
   def index
-    gon.candidates = Candidate.order(raised: :desc)
+    gon.candidates = Candidate.all
   end
 
   def show
     @candidate = Candidate.find(params[:id])
-    gon.contributions = @candidate.contributions.sort_by {|c| Date.parse(c.date) }.reverse
+    gon.contributions = @candidate.contributions
   end
 
   def save
