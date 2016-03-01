@@ -49,9 +49,9 @@ def create_candidates
             dist   = child.children[2].text
             pos    = child.children[3].text
             party  = child.children[4].text
-            raised = child.children[5].text[1..-1].gsub(",", "").to_f
-            spent  = child.children[6].text[1..-1].gsub(",", "").to_f
-            debt   = child.children[7].text[1..-1].gsub(",", "").to_f
+            raised = child.children[6].text[1..-1].gsub(",", "").to_f
+            spent  = child.children[7].text[1..-1].gsub(",", "").to_f
+            debt   = child.children[8].text[1..-1].gsub(",", "").to_f
             Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, dist: dist, pos: pos, party: party, raised: raised, spent: spent, debt: debt, office_type: "legislative")
           when "judicial"
             office  = child.children[2].text
@@ -63,6 +63,27 @@ def create_candidates
           end
         end
       end
+    end
+  end
+end
+
+def find_candidate_contacts(ids)
+  ids.each do |key, elections|
+    elections.each do |election|
+      url = "http://www.pdc.wa.gov/MvcQuerySystem/CandidateData/contributions?param=#{key}====&year=#{election[0]}&type=#{election[1]}"
+
+      candidate = Candidate.find_by(pdc_id_year: key + election[0])
+      page = Nokogiri::HTML(RestClient.get(url))
+
+      info = page.css(".t-window-content").text.gsub(" ","").split("\r\n").reject { |c| c.empty? }
+
+      candidate.address = info[3]
+      candidate.city    = info[5]
+      candidate.state   = info[7]
+      candidate.zip     = info[9]
+      candidate.email   = info[11]
+      candidate.phone   = info[13]
+      candidate.save
     end
   end
 end
@@ -143,6 +164,9 @@ end
 total_time = Time.now
 candidate_time = Time.now
 create_candidates()
+ids = eval(File.read("ids"))
+find_candidate_contacts(ids)
 puts "Total time for just candidates seeding: " + (Time.now - candidate_time).to_s
+
 create_contributions('csvs/')
 puts "Total time for candidates and contributions seeding: " + (Time.now - total_time).to_s

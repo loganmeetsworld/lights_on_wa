@@ -5,7 +5,7 @@ def find_candidate_contacts(ids)
     elections.each do |election|
       url = "http://www.pdc.wa.gov/MvcQuerySystem/CandidateData/contributions?param=#{key}====&year=#{election[0]}&type=#{election[1]}"
 
-      candidate = Candidate.where(pdc_id: key, year: election[0]).first
+      candidate = Candidate.find_by(pdc_id_year: key + election[0])
       page = Nokogiri::HTML(RestClient.get(url))
 
       info = page.css(".t-window-content").text.gsub(" ","").split("\r\n").reject { |c| c.empty? }
