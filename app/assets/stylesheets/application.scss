@@ -1,7 +1,6 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
-@import "sweetalert.css";
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono|News+Gothic|Inconsolata|Droid+Sans|Roboto|Cabin|Open+Sans|Raleway|Poiret+One|Lato');
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
 
@@ -15,6 +14,7 @@ body {
 
 #st_search {
   margin-bottom: 20px;
+  font-size: 14px;
 }
 
 li#login:active {

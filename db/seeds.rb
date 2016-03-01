@@ -46,13 +46,14 @@ def create_candidates
             debt   = child.children[6].text[1..-1].gsub(",", "").to_f
             Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, office_type: "statewide",party: party, raised: raised, spent: spent, debt: debt)
           when "legislative"
-            office = child.children[2].text
-            pos    = child.children[3].text
-            party  = child.children[4].text
+            dist   = child.children[2].text
+            office = child.children[3].text            
+            pos    = child.children[4].text
+            party  = child.children[5].text
             raised = child.children[6].text[1..-1].gsub(",", "").to_f
             spent  = child.children[7].text[1..-1].gsub(",", "").to_f
             debt   = child.children[8].text[1..-1].gsub(",", "").to_f
-            Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, dist: dist, pos: pos, party: party, raised: raised, spent: spent, debt: debt, office_type: "legislative")
+            Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, dist: dist, pos: pos, party: party, raised: raised, spent: spent, debt: debt, office: office, office_type: "legislative")
           when "judicial"
             office = child.children[2].text
             pos    = child.children[4].text
@@ -117,7 +118,7 @@ def create_contributions(dir)
           name:         row["Contributor"],
           city:         row[" City"],
           state:        row[" State"],
-          zip:          row[" Zip"].split('')[0..5].join(''),
+          zip:          row[" Zip"],
           employer:     row[" Employer"],
           occupation:   row[" Occupation"],
           date:         row[" Date"],
