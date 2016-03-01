@@ -11,7 +11,7 @@ class CandidatesController < ApplicationController
 
   def save
     @candidate = Candidate.find(params[:id])
-    if current_user
+    if current_user && !(current_user.candidates.include? @candidate)
       current_user.candidates << @candidate
       redirect_to :back, :flash => {:error => "Candidate saved to your account."}
     end

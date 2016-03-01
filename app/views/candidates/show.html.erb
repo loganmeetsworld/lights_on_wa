@@ -13,7 +13,7 @@
   
 </span>
 
-<%= metrics_graphic_for @date_amounts, target: '#contributions', title: "contributions", description: "This graphic shows a time-series of contributions.", width: 600, height: 250, x_accessor: 'date', y_accessor: 'value', time_format: '%Y-%m-%d' %>
+<%= metrics_graphic_for @date_amounts, target: '#contributions', title: "Contributions Over #{@candidate.year} Election", description: "This graphic shows a time-series of contributions for #{@candidate.name} over the #{@candidate.year} #{@candidate.office.titlecase} election period.", width: 800, height: 350, x_accessor: 'date', y_accessor: 'value', time_format: '%Y-%m-%d' %>
 
 <div class="container">
   <div class='example'>
