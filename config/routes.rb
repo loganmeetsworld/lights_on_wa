@@ -9,8 +9,6 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', :to => 'sessions#create', :as => :auth
 
   # post '/search', :controller => 'welcome', :action => "search"
-
-  get 'candidates/autocomplete_candidate_name' => 'candidates#index'
   
   resources 'candidates'
 

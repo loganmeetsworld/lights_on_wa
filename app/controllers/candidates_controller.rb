@@ -6,6 +6,7 @@ class CandidatesController < ApplicationController
   def show
     @candidate = Candidate.find(params[:id])
     gon.contributions = @candidate.contributions
+    @date_amounts = Candidate.create_date_hash(@candidate.contributions)
   end
 
   def save

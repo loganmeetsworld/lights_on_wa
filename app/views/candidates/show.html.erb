@@ -9,6 +9,12 @@
     <strong><p class='flash'><%=h flash[:error] %></p></strong>
 <% end %>
 
+<span id="contributions">
+  
+</span>
+
+<%= metrics_graphic_for @date_amounts, target: '#contributions', title: "contributions", description: "This graphic shows a time-series of contributions.", width: 600, height: 250, x_accessor: 'date', y_accessor: 'value', time_format: '%Y-%m-%d' %>
+
 <div class="container">
   <div class='example'>
     <h4><span id="found" class="label label-default"><%= fa_icon "book" %></span></h4>

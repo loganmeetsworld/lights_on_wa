@@ -18,16 +18,12 @@ gem 'omniauth'
 gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'omniauth-github'
 gem 'omniauth-twitter'
-gem 'omniauth-google-oauth2'
-gem 'httparty'
 
 # Styling
 gem 'bootstrap-sass'
 gem "font-awesome-rails"
-gem 'pure-css-rails', '~> 0.6.0'
-gem 'bootstrap-social-rails'
-gem 'sweet-alert'
-gem 'sweet-alert-confirm'
+gem "d3-rails"
+gem 'metrics-graphics-rails'
 
 # Web Scraping
 gem 'crack', '~> 0.4.3'

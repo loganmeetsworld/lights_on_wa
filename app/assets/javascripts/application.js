@@ -12,6 +12,7 @@
 //
 
 //= require jquery
+//= require metrics-graphics-rails
 //= require jquery_ujs
 //= require jquery-ui
 //= require handlebars
@@ -20,6 +21,7 @@
 //= require stream_sorting
 //= require sweetalert
 //= require_tree .
+
 
 $(function() {
    $('.flash').delay(500).fadeIn('normal', function() {

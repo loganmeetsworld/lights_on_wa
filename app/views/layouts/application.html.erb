@@ -3,10 +3,12 @@
 <head>
   <title>Lights on WA</title>
   <%= include_gon %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= stylesheet_link_tag 'sweetalert', media: 'all' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'metricsgraphics', media: 'all' %>
   <%= csrf_meta_tags %>
+
 </head>
 <body>
   <%= render "shared/nav" %>
