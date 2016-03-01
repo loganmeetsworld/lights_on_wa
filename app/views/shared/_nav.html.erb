@@ -15,7 +15,7 @@
     <div class="navbar-collapse collapse pull-right">
       <ul class="nav navbar-nav">
         <% if current_user.nil? %>
-          <li id="login"><a href="#"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
+          <li id="login"><a><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
         <% else %>
           <li class=""><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
           <li class=""><%= link_to "Account", user_path(current_user) %></li>
