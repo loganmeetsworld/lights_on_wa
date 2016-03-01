@@ -10,17 +10,13 @@ def find_candidate_contacts(ids)
 
       info = page.css(".t-window-content").text.gsub(" ","").split("\r\n").reject { |c| c.empty? }
 
-      candidate.address = info[3]
       candidate.city    = info[5]
       candidate.state   = info[7]
-      candidate.zip     = info[9]
-      candidate.email   = info[11]
-      candidate.phone   = info[13]
+      candidate.zip     = info[9].split('')[0..5].join('')
       candidate.save
     end
   end
 end
-
 
 def update_candidate_info(candidates)
   candidates.each do |candidate|

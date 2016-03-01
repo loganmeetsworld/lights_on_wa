@@ -29,8 +29,8 @@
         <a href="/candidates/{{record.id}}">{{record.name}}</a>
     </td>
     <td>{{record.office}}</td>
+    <td><%= number_to_currency("{{record.raised}}") %></td>
     <td><%= number_to_currency("{{record.spent}}") %></td>
-    <td><%= number_to_currency("{{record.debt}}") %></td>
     <td>{{record.year}}</td>
   </tr>
 </script>

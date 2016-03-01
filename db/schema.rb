@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229013036) do
+ActiveRecord::Schema.define(version: 20160301021813) do
 
   create_table "candidates", force: :cascade do |t|
     t.datetime "created_at",  null: false
@@ -31,12 +31,9 @@ ActiveRecord::Schema.define(version: 20160229013036) do
     t.string   "court"
     t.string   "locality"
     t.integer  "user_id"
-    t.string   "address"
     t.string   "city"
     t.string   "state"
     t.string   "zip"
-    t.string   "email"
-    t.string   "phone"
     t.string   "pdc_id_year"
     t.string   "office_type"
   end
