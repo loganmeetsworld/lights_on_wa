@@ -12,8 +12,7 @@
   - A working trello can be found [here](trello) as well as a repo [here](repo).
 
 1. __Optional__:
-  - Technology selections: PostgresSql for the data, Ruby on Rails for the backend, Javascript and [d3](d3tut) for the frontend, Python for the web scrapper, possibly Twillio for emails 
-  - Wireframes: None, yet.
+  - Technology selections: MySQL for the data, Ruby on Rails for the backend, Javascript and [d3](d3tut) for the frontend, Python for the web scrapper, and AWS OpsWorks for deployment. 
 
 [repo]: https://github.com/loganmeetsworld/lights_on_wa
 [pdc]: pdc.wa.gov
