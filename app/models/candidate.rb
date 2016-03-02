@@ -6,12 +6,8 @@ class Candidate < ActiveRecord::Base
   has_many :candidates_to_user
   has_many :users, through: :candidates_to_user
   has_many :contributions
-  validates_presence_of :name, :pdc_id
+  validates_presence_of :name, :pdc_id, :pdc_id_year
   validates_uniqueness_of :pdc_id_year
-
-  def self.search(query)
-    where("name like ?", "%#{query}%") 
-  end
 
   def self.create_date_hash(contribution_objects)
     contribution_hash = Hash.new 0

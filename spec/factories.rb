@@ -19,15 +19,15 @@ FactoryGirl.define do
   end
 
   factory :contribution do
-    date
-    amount
-    candidate_id
-    cont_type
-    name
-    city
-    state
-    zip 
-    employeer 
-    occupation 
+    date "2000/04/01"
+    amount 100
+    candidate_id 1
+    cont_type "inkind"
+    name "BILL"
+    city "SEATTLE"
+    state "WA"
+    zip "98122"
+    employer "MICROSOFT"
+    occupation "CEO"
   end
 end
