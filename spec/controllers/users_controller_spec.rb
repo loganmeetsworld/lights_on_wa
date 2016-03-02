@@ -11,7 +11,11 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to render_template :show
     end
 
-    it "successfully loads users candidates" do 
+    it "requires login for show page" do
+      
+    end
+
+    it "understands users candidates relationship" do 
       user.candidates << candidate
       expect(user.candidates.length).to eq 1
     end

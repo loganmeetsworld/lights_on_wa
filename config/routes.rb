@@ -4,9 +4,8 @@ Rails.application.routes.draw do
   get 'about' => 'welcome#about', :as => :about
 
   # Candidates and users' pages
-  resources 'candidates' do 
-    post 'candidates/:id' => 'candidates#save'
-  end
+  resources 'candidates', only: [:index, :show, :destroy]
+  post 'save' => 'candidates#save', :as => :save
   resources 'users', only: :show
 
   # Sessions and auth
