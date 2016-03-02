@@ -1,6 +1,5 @@
 $(function(){
   zoomBurst(gon.candidate_sunburst_data, ".candidate-burst");
-
 })
 
 function zoomBurst(root_data, boro) {

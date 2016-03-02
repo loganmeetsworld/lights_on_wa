@@ -1,17 +1,18 @@
 <% if current_user.candidates.empty? %>
   <h3>No candidates yet.</h3>
 <% else %>
+
   <h2>Your Candidates</h2>
   <h3>Compare Contributions Over Election Cycle</h3>
 
   <% count = 0 %>
   <% @candidates.each do |candidate| %>
-    <li><%= link_to candidate.name, candidate_path(candidate) %> (<%= candidate.year %> <%= candidate.office %> Race)
-    <%= link_to "Unfollow", candidate_path(candidate), method: "delete", class: "btn btn-default gray-btn" %></li>
-    <span class="<%= 'contributions' + count.to_s %>">
-      
-    </span>
+    <li>
+      <%= link_to candidate.name, candidate_path(candidate) %> (<%= candidate.year %> <%= candidate.office %> Race)
+      <%= link_to "Unfollow", candidate_path(candidate), method: "delete", class: "btn btn-default gray-btn" %>
+    </li>
 
+    <span class="<%= 'contributions' + count.to_s %>"></span>
     <%= metrics_graphic_for Candidate.create_date_hash(candidate.contributions), target: "#{'.contributions' + count.to_s}", title: "", description: "This graphic shows a time-series of contributions.", width: 700, height: 300, x_accessor: 'date', y_accessor: 'value', time_format: '%Y-%m-%d' %>
 
     <% count += 1 %>

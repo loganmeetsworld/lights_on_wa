@@ -1,4 +1,5 @@
-## Logan's Product Plan
+## Lights on Washington
+
 1. __Problem Statement__: The majority of digital Campaign Finance work has been done at the federal level because the FEC provides a standarized form of data and regulation. However, when we talk about money in politics, we usually emphasize corruption at the local level. A 10k donation to a multi-million dollar senate campaign may not make a big difference, but the same donation to a small judicial race might. Thus it may be much more important to track money at the state and county level. However, the data and regulation at the state level varies vastly across state and county lines. Until now, no webapp or API exists to help track state candidates in Washington. "Lights on Washington" is an API and web application that scrapes data from the Public Disclosure Commission ([pdc](pdc)) website, using this information to allow users to search and save candiates for state office in Washington. Beyond the immediate impact of the app, I want to well-document and test-drive (TDD) building this app so that hopefully people from other states can build their own applications to track campaign finance.  
 
 1. __Market Research__: 

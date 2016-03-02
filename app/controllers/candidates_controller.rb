@@ -10,9 +10,6 @@ class CandidatesController < ApplicationController
     gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
   end
 
-  def show_timeline
-  end
-
   def save
     @candidate = Candidate.find(params[:id])
     if current_user && !(current_user.candidates.include? @candidate)
