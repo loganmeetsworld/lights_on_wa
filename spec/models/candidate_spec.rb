@@ -55,7 +55,28 @@ RSpec.describe Candidate, type: :model do
   end
 
   describe "#self.get_sunburst_data(candidate)" do 
-    it do 
+    before(:each) do 
+      candidate.save
+      contribution.candidate_id = candidate.id
+    end
+
+    let(:sunburst_array) { Candidate.get_sunburst_data(candidate) }
+
+    it "creates an array of hashes successfully" do
+      expect(sunburst_array).to be_an_instance_of Array
+      expect(sunburst_array.first).to be_an_instance_of Hash 
+    end
+
+    it "produces states first level down in the hash" do
+      expect(sunburst_array.first[:name]).to eq "WA" 
+    end
+
+    it "produces cities second level down in the hash" do
+      expect(sunburst_array.first[:children].first[:name]).to eq "SEATTLE" 
+    end
+
+    it "produces names third level down in the hash" do
+      expect(sunburst_array.first[:children].first[:children].first[:name]).to eq "BILL" 
     end
   end
 end

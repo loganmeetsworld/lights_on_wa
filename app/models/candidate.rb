@@ -28,7 +28,6 @@ class Candidate < ActiveRecord::Base
   end
 
   def self.get_sunburst_data(candidate)
-
     candidate.contributions.where.not(state: " ").group_by { |v| v.state }.map do |state, contribution|
         {
           name: state,
