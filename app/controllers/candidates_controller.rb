@@ -7,6 +7,10 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     gon.contributions = @candidate.contributions
     @date_amounts = Candidate.create_date_hash(@candidate.contributions)
+    gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
+  end
+
+  def show_timeline
   end
 
   def save

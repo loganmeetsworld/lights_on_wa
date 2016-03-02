@@ -13,14 +13,6 @@ class Candidate < ActiveRecord::Base
     where("name like ?", "%#{query}%") 
   end
 
-  def self.format_name(name)
-    name = name.split(' ')[1].titlecase + ' ' + name.split(' ')[-1] + ". " + name.split(' ')[0].titlecase
-  end
-
-  def self.unformat_name(name)
-    name = name.split(' ')[0].titlecase + ' ' + name.split(' ')[1] + " " + name.split(' ')[-1].titlecase
-  end
-
   def self.create_date_hash(contribution_objects)
     contribution_hash = Hash.new 0
 
@@ -37,5 +29,27 @@ class Candidate < ActiveRecord::Base
       total += v.to_i
     end
     return data
+  end
+
+  def self.get_sunburst_data(candidate)
+
+    candidate.contributions.where.not(state: " ").group_by { |v| v.state }.map do |state, contribution|
+        {
+          name: state,
+          children: contribution.group_by{ |v| v.city }.map do |city, contribution|
+            {
+              name: city,
+              count: contribution.count,
+              children: contribution.group_by{ |v| v.name }.map do |name, contribution|
+                {
+                  name: name,
+                  count: contribution.count
+                }
+              end
+            }
+          end
+        }
+      end
+
   end
 end
