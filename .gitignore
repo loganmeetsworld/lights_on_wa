@@ -18,3 +18,4 @@
 .env
 config/
 .yml
+coverage
