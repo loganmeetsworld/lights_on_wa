@@ -1,0 +1,61 @@
+   <div class="col-lg-4">
+    <div class="list-group">
+        <span class="list-group-item">
+            <i class="fa fa-user fa-fw"></i> Office
+            <span class="pull-right"><%= @candidate.office %>
+            </span>
+        </span>
+        <span class="list-group-item">
+            <i class="fa fa-minus fa-fw"></i> Year
+            <span class="pull-right"><%= @candidate.year%>
+            </span>
+        </span>
+        <span class="list-group-item">
+            <i class="fa fa-money fa-fw"></i> Party (if applicable)
+            <span class="pull-right"><%= @candidate.party %>
+            </span>
+        </span>
+        <span class="list-group-item">
+            <i class="fa fa-exchange fa-fw"></i> Office Type
+            <span class="pull-right"><%= @candidate.office_type %>
+            </span>
+        </span>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="list-group">
+        <span class="list-group-item">
+            <i class="fa fa-plus fa-fw"></i> Raised
+            <span class="pull-right"><%= number_to_currency(@candidate.raised.to_f, raise: true) %>
+            </span>
+        </span>
+        <span class="list-group-item">
+            <i class="fa fa-minus fa-fw"></i> Spent
+            <span class="pull-right"><%= number_to_currency(@candidate.spent.to_f, raise: true) %>
+            </span>
+        </span>
+        <span class="list-group-item">
+            <i class="fa fa-money fa-fw"></i> Cash Contributions
+            <span class="pull-right"><%= number_to_currency(@candidate.contributions.where(cont_type: "contributions").pluck(:amount).inject(:+), raise: true) %>
+            </span>
+        </span>
+        <span class="list-group-item">
+            <i class="fa fa-exchange fa-fw"></i> Inkind Contributions
+            <span class="pull-right"><%= number_to_currency(@candidate.contributions.where(cont_type: "inkind").pluck(:amount).inject(:+), raise: true) %>
+            </span>
+        </span>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <span class="list-group-item info">
+      <i class="fa fa-list fa-fw"></i> All Elections
+    </span>
+    <div class="list-group">
+      <% Candidate.all.where(pdc_id: @candidate.pdc_id).each do |election| %>
+        <a href="candidates/<%= election.id%>" class="list-group-item"><%= election.year %>: <%= election.office %> Election
+        </a>
+      <% end %>
+    </div>
+  </div>

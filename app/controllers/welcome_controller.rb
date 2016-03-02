@@ -1,3 +1,5 @@
 class WelcomeController < ApplicationController
-  def home; end
+  def home
+    render 'layouts/application'
+  end
 end

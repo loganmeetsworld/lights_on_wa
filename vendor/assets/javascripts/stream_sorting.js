@@ -2,7 +2,7 @@ var st; //For debuggin only
 $(document).ready(function() {
   if ($('h2').text() === "Start Exploring Campaign Finance in WA State") {
     var data = gon.candidates, html = $.trim($("#template").html()), template = Mustache.compile(html);
-  } else if ($('h2').text().includes("Race")) {
+  } else if ($('h2').text().includes("RACE")) {
     var data = gon.contributions, html = $.trim($("#template").html()), template = Mustache.compile(html);
   } else {
     console.log("no data needed for table");
