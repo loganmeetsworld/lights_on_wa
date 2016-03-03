@@ -1,5 +1,5 @@
 <h2><%= @candidate.name %> (<%= @candidate.year %> <%= @candidate.office %> RACE)</h2>
-
+<br>
 
 <% if flash[:error] %>
   <strong><p class='flash'><%=h flash[:error] %></p></strong>
@@ -8,24 +8,48 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <i class="fa fa-user fa-fw"></i> Candidate Overview
-    <% if current_user && !(current_user.candidates.include?(@candidate)) %>
-      <span class="pull-right"><%= button_to "Save Candidate", candidate_path(@candidate), method: :post, class: "btn btn-default" %></span>
+    <% if current_user %>
+      <% if !(current_user.candidates.include?(@candidate)) %>
+        <span class="pull-right"><%= button_to "Save Candidate", candidate_path(@candidate), method: :post, class: "btn btn-info" %></span>
+      <% else %>
+        <span class="pull-right"><%= link_to "Unfollow", candidate_path(@candidate), method: "delete", class: "btn btn-danger" %></span>
+      <% end %>
     <% end %>
   </div>
 
+
   <div class="panel-body">
     <%= render partial: "shared/candidate_console" %>
-    <%= render partial: "shared/candidate_burst" %>
-    <%= render partial: "shared/candidate_line" , 
-        locals: { 
-          span: "contributions",
-          object: @date_amounts,
-          target: "#contributions",
-          title: "Contributions Over #{@candidate.year} Election",
-          description: "This graphic shows a time-series of contributions for #{@candidate.name} over the #{@candidate.year} #{@candidate.office.titlecase} election period."
 
-      } %>
-    <%= render partial: "shared/contribution_table" %>
+    <div class="col-lg-12">
+      <ul id="myTabs" class="nav nav-tabs">
+        <li class="active"><a href="#table" data-toggle="tab">Search All Contributions</a></li>
+        <li class=""><a href="#line-graph" data-toggle="tab">Contributions Timeline Graph</a></li>
+        <li class=""><a href="#sunburst" data-toggle="tab">Sunburst By Location</a></li>
+      </ul>
+       
+      <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="table">
+          <br />
+          <%= render partial: "shared/contribution_table" %>
+        </div>
+        <div class="tab-pane fade" id="line-graph">
+          <%= render partial: "shared/candidate_line" , 
+          locals: { 
+            span: "contributions",
+            object: @date_amounts,
+            target: "#contributions",
+            title: "Contributions Over #{@candidate.year} Election",
+            description: "This graphic shows a time-series of contributions for #{@candidate.name} over the #{@candidate.year} #{@candidate.office.titlecase} election period."
 
+        } %>
+        </div>
+        <div class="tab-pane fade" id="sunburst">
+          <%= render partial: "shared/candidate_burst" %>
+        </div>
+      </div>
+
+
+    </div>
   </div>
 </div>

@@ -3,6 +3,24 @@ class CandidatesController < ApplicationController
     gon.candidates = Candidate.all
   end
 
+  def table
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def line
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def burst
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def show
     @candidate = Candidate.find(params[:id])
     gon.contributions = @candidate.contributions
@@ -22,6 +40,6 @@ class CandidatesController < ApplicationController
     @candidate = current_user.candidates.find(params[:id])
     @candidate.save
     current_user.candidates.delete(@candidate)
-    redirect_to :back
+    redirect_to :back, :flash => {:error => "Candidate removed from your account."}
   end
 end

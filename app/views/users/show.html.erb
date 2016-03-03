@@ -1,8 +1,15 @@
 <% if current_user.candidates.empty? %>
-  <h3>No candidates yet.</h3>
+  <h3>You have no candidates saved.</h3>
+  <% if flash[:error] %>
+    <strong><p class='flash'><%=h flash[:error] %></p></strong>
+  <% end %>
 <% else %>
 
-  <h2>Your Candidates</h2>
+  <h3>Your Candidates</h3>
+  <% if flash[:error] %>
+    <strong><p class='flash'><%=h flash[:error] %></p></strong>
+  <% end %>
+
   <h3>Compare Contributions Over Election Cycle</h3>
 
   <% count = 0 %>

@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
       @user = User.find_or_create_from_omniauth(auth_hash)
       if @user
         session[:user_id] = @user.id
-        redirect_to user_path(@user), notice: "Welcome #{current_user.username}!"
+        redirect_to user_path(@user), :flash => {:error => "Candidate removed from your account."}
       end
     end
   end

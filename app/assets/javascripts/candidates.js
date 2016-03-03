@@ -1,10 +1,3 @@
-// Flash notification fade in and out
-$(function() {
-   $('.flash').delay(500).fadeIn('normal', function() {
-      $(this).delay(2500).fadeOut();
-   });
-});
-
 // Sweet alert login page
 $(document).ready(function() {
   $('#login').click(function(event){
