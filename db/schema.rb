@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301021813) do
+ActiveRecord::Schema.define(version: 20160303213017) do
 
   create_table "candidates", force: :cascade do |t|
     t.datetime "created_at",  null: false
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20160301021813) do
     t.string   "zip"
     t.string   "employer"
     t.string   "occupation"
+    t.boolean  "instate"
   end
 
   create_table "users", force: :cascade do |t|

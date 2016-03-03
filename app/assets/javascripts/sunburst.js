@@ -1,11 +1,14 @@
-$(function(){
-  zoomBurst(gon.candidate_sunburst_data, ".candidate-burst");
-})
+$(document).ready(function(){
+  console.log('works');
+  $("a#test_burst").click(function() {
+      zoomBurst(gon.candidate_sunburst_data, "#visual");
+  });
+});
 
-function zoomBurst(root_data, boro) {
+var zoomBurst = function(root_data, child) {
+  console.log(root_data);
  var root = {"name": "Candidates",
  "children": root_data}
-
 
 
   var width = 960,
@@ -20,7 +23,7 @@ function zoomBurst(root_data, boro) {
 
   var color = d3.scale.category20c();
 
-  var svg = d3.select(boro).append("svg").attr("class", "col-md-offset-1")
+  var svg = d3.select(child).append("svg").attr("class", "col-md-offset-1")
       .attr("width", width)
       .attr("height", height)
     .append("g")

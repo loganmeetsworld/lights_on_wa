@@ -1,1 +1,2 @@
-$("#line_partial").prepend('<%= escape_javascript(render 'shared/candidate_line',  :locals => {span: "contributions", object: @date_amounts,target: "#contributions", title: "Contributions Over #{@candidate.year} Election", description: "This graphic shows a time-series of contributions for #{@candidate.name} over the #{@candidate.year} #{@candidate.office.titlecase} election period."} ) %>');
+$("#visual").html('<%=j render :partial=>'shared/candidate_line', :locals => {span: "visual", object: @date_amounts,target: "#visual", title: "Contributions Over #{@candidate.year} Election", description: "This graphic shows a time-series of contributions for #{@candidate.name} over the #{@candidate.year} #{@candidate.office.titlecase} election period."} %>');
+$("#content").hide();

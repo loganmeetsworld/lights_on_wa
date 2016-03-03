@@ -3,29 +3,37 @@ class CandidatesController < ApplicationController
     gon.candidates = Candidate.all
   end
 
+  def show
+    @candidate = Candidate.find(params[:id])
+    gon.contributions = @candidate.contributions
+    gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
+  end
+
   def table
+    @candidate = Candidate.find(params[:id])
+    gon.contributions = @candidate.contributions
     respond_to do |format|
       format.js
+      format.html
     end
   end
 
   def line
-    respond_to do |format|
-      format.js
-    end
-  end
-
-  def burst
-    respond_to do |format|
-      format.js
-    end
-  end
-
-  def show
     @candidate = Candidate.find(params[:id])
-    gon.contributions = @candidate.contributions
     @date_amounts = Candidate.create_date_hash(@candidate.contributions)
+    respond_to do |format|
+      format.js
+      format.html
+    end
+  end
+
+  def burst    
+    @candidate = Candidate.find(params[:id])
     gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def save

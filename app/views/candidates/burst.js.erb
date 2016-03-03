@@ -1,1 +1,3 @@
-$("#sunburst_partial").prepend('<%= escape_javascript(render partial 'shared/candidate_burst') %>');
+$("#content").hide();
+$("#content").html('<%=j render :partial=>'shared/candidate_burst' %>');
+

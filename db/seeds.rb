@@ -125,6 +125,7 @@ def create_contributions(dir)
           amount:       row[" Amount"],
           description:  row[" Description"],
           cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
+          instate:      row[" State"] == " WA" ? true : false
           candidate_id: Candidate.find_by(pdc_id_year: key + election).id
         }
     

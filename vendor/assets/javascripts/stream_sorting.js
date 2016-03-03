@@ -1,5 +1,10 @@
 var st; //For debuggin only
-$(document).ready(function() {
+
+$(document).ready(function(){
+  tablehook();
+});
+
+var tablehook = function() {
   if ($('h2').text() === "Start Exploring Campaign Finance in WA State") {
     var data = gon.candidates, html = $.trim($("#template").html()), template = Mustache.compile(html);
   } else if ($('h2').text().includes("RACE")) {
@@ -9,7 +14,6 @@ $(document).ready(function() {
   };
   
   var view = function(record, index){
-    
     return template({record: record, index: index});
   };
   var $summary = $('#summary');
@@ -50,7 +54,7 @@ $(document).ready(function() {
       pagination: {span: 5, next_text: 'Next &rarr;', prev_text: '&larr; Previous'}
     }
   , data);
-
+  debugger;
   //Only for example: Stop ajax streaming beacause from localfile data size never going to empty.
   /*
   var timer = setTimeout(function(){
@@ -59,5 +63,4 @@ $(document).ready(function() {
    }, 10*1000);
   */ 
 
-});
-
+};

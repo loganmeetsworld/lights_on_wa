@@ -22,26 +22,16 @@
     <%= render partial: "shared/candidate_console" %>
 
     <div class="col-lg-12">
-      <ul id="myTabs" class="nav nav-tabs">
-        <li class="active"><%= link_to "Search All Contributions", {:controller => "candidates", :action => "table"}, :remote => true %></li>
-        <li class=""><%= link_to "Line Graph of Contributions", {:controller => "candidates", :action => "line"}, :remote => true %></li>
-        <li class=""><%= link_to "Sunburst By Location", {:controller => "candidates", :action => "burst"}, :remote => true %></li>
-      </ul>
-       
-      <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade active in" id="table">
-          <br />
-          <div id=table-partial></div>
-        </div>
-        <div class="tab-pane fade" id="line">
-          <div id=line-partial></div>
-        </div>
-        <div class="tab-pane fade" id="sunburst">
-          <div id=sunburst-partial></div>
-        </div>
+      <div class="row-fluid">
+        <ul class="nav nav-tabs">
+          <li><%= link_to "View a Line Graph of Contributions", {:controller => "candidates", :action => "line", :id => @candidate.id}, :remote => true, class: "btn btn-info" %></li>
+          <li><%= link_to "View a Sunburst Graph By Location", {:controller => "candidates", :action => "burst", :id => @candidate.id}, :remote => true, id: "test_burst", class: "btn btn-info" %></li>
+        </ul>
+        <div id="content"></div>
+        <div id="visual"></div>
       </div>
-
-
+      <br>
+      <%= render partial: "shared/contribution_table" %>
     </div>
   </div>
 </div>

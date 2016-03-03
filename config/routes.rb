@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   post '/candidates/:id' => 'candidates#save', :as => :save
   resources 'users', only: :show
 
-  get '/table' => 'candidates#table'
-  get '/line' => 'candidates#line'
-  get '/burst' => 'candidates#burst'
+  get '/table/:id' => 'candidates#table'
+  get '/line/:id' => 'candidates#line'
+  get '/burst/:id' => 'candidates#burst'
 
   # Sessions and auth
   get '/login' => 'sessions#new', :as => :login

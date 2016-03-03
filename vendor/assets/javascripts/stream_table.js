@@ -46,7 +46,7 @@
 
     if (!this.view) $.error('Add view function in options.');
     
-    if (this.$container.get(0).tagName == 'TABLE') this.$container = this.$container.find('tbody');
+    if (this.$container.get(0) && this.$container.get(0).tagName == 'TABLE') this.$container = this.$container.find('tbody');
 
     this.initPagination(this.opts.pagination || {});
     this.addSearchBox();
