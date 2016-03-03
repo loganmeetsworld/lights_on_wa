@@ -9,15 +9,6 @@ class CandidatesController < ApplicationController
     gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
   end
 
-  def table
-    @candidate = Candidate.find(params[:id])
-    gon.contributions = @candidate.contributions
-    respond_to do |format|
-      format.js
-      format.html
-    end
-  end
-
   def line
     @candidate = Candidate.find(params[:id])
     @date_amounts = Candidate.create_date_hash(@candidate.contributions)

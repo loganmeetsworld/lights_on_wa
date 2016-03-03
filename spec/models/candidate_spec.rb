@@ -67,16 +67,20 @@ RSpec.describe Candidate, type: :model do
       expect(sunburst_array.first).to be_an_instance_of Hash 
     end
 
-    it "produces states first level down in the hash" do
-      expect(sunburst_array.first[:name]).to eq "WA" 
+    it "produces whether in or out of state first level down in the hash" do
+      expect(sunburst_array.first[:name]).to eq "OUT OF STATE" 
     end
 
-    it "produces cities second level down in the hash" do
-      expect(sunburst_array.first[:children].first[:name]).to eq "SEATTLE" 
+    it "produces states second level down in the hash" do
+      expect(sunburst_array.first[:children].first[:name]).to eq "WA" 
+    end
+
+    it "produces cities third level down in the hash" do
+      expect(sunburst_array.first[:children].first[:children].first[:name]).to eq "SEATTLE" 
     end
 
     it "produces names third level down in the hash" do
-      expect(sunburst_array.first[:children].first[:children].first[:name]).to eq "BILL" 
+      expect(sunburst_array.first[:children].first[:children].first[:children].first[:name]).to eq "BILL" 
     end
   end
 end

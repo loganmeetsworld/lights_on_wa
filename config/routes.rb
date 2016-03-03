@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   post '/candidates/:id' => 'candidates#save', :as => :save
   resources 'users', only: :show
 
-  get '/table/:id' => 'candidates#table'
   get '/line/:id' => 'candidates#line'
   get '/burst/:id' => 'candidates#burst'
 
