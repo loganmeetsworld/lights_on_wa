@@ -23,29 +23,21 @@
 
     <div class="col-lg-12">
       <ul id="myTabs" class="nav nav-tabs">
-        <li class="active"><a href="#table" data-toggle="tab">Search All Contributions</a></li>
-        <li class=""><a href="#line-graph" data-toggle="tab">Contributions Timeline Graph</a></li>
-        <li class=""><a href="#sunburst" data-toggle="tab">Sunburst By Location</a></li>
+        <li class="active"><%= link_to "Search All Contributions", {:controller => "candidates", :action => "table"}, :remote => true %></li>
+        <li class=""><%= link_to "Line Graph of Contributions", {:controller => "candidates", :action => "line"}, :remote => true %></li>
+        <li class=""><%= link_to "Sunburst By Location", {:controller => "candidates", :action => "burst"}, :remote => true %></li>
       </ul>
        
       <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade active in" id="table">
           <br />
-          <%= render partial: "shared/contribution_table" %>
+          <div id=table-partial></div>
         </div>
-        <div class="tab-pane fade" id="line-graph">
-          <%= render partial: "shared/candidate_line" , 
-          locals: { 
-            span: "contributions",
-            object: @date_amounts,
-            target: "#contributions",
-            title: "Contributions Over #{@candidate.year} Election",
-            description: "This graphic shows a time-series of contributions for #{@candidate.name} over the #{@candidate.year} #{@candidate.office.titlecase} election period."
-
-        } %>
+        <div class="tab-pane fade" id="line">
+          <div id=line-partial></div>
         </div>
         <div class="tab-pane fade" id="sunburst">
-          <%= render partial: "shared/candidate_burst" %>
+          <div id=sunburst-partial></div>
         </div>
       </div>
 
