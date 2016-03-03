@@ -114,6 +114,7 @@ def create_contributions(dir)
       end
 
       csv.each do |row|
+        row[" State"] == " WA" ? instate = true : instate = false
         contribution_hash = {
           name:         row["Contributor"],
           city:         row[" City"],
@@ -125,7 +126,7 @@ def create_contributions(dir)
           amount:       row[" Amount"],
           description:  row[" Description"],
           cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
-          instate:      row[" State"] == " WA" ? true : false
+          instate:      instate
           candidate_id: Candidate.find_by(pdc_id_year: key + election).id
         }
     

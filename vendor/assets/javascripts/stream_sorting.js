@@ -54,7 +54,6 @@ var tablehook = function() {
       pagination: {span: 5, next_text: 'Next &rarr;', prev_text: '&larr; Previous'}
     }
   , data);
-  debugger;
   //Only for example: Stop ajax streaming beacause from localfile data size never going to empty.
   /*
   var timer = setTimeout(function(){

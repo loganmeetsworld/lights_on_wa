@@ -28,23 +28,28 @@ class Candidate < ActiveRecord::Base
   end
 
   def self.get_sunburst_data(candidate)
-    candidate.contributions.where.not(state: " ").group_by { |v| v.state }.map do |state, contribution|
+    candidate.contributions.where.not(state: " ").group_by { |v| v.instate }.map do |instate, contribution|
         {
-          name: state,
-          children: contribution.group_by{ |v| v.city }.map do |city, contribution|
+          name: instate ? "IN STATE" : "OUT OF STATE",
+          children: contribution.group_by{ |v| v.state }.map do |state, contribution|
             {
-              name: city,
-              count: contribution.count,
-              children: contribution.group_by{ |v| v.name }.map do |name, contribution|
-                {
-                  name: name,
-                  count: contribution.count
-                }
-              end
-            }
-          end
-        }
-      end
-
+            name: state,
+            count: contribution.count,
+            children: contribution.group_by{ |v| v.city }.map do |city, contribution|
+              {
+                name: city,
+                count: contribution.count,
+                children: contribution.group_by{ |v| v.name }.map do |name, contribution|
+                  {
+                    name: name,
+                    count: contribution.count
+                  }
+                end
+              }
+            end
+          }
+        end
+      }
+    end
   end
 end

@@ -52,7 +52,7 @@
 
 .mg-baselines text {
     fill: black;
-    font-size: 0.9rem;
+    font-size: 1rem;
     opacity: 0.6;
     stroke: none;
 }
@@ -63,7 +63,7 @@
 
 .mg-header {
     cursor: default;
-    font-size: 1.2rem;
+    font-size: 2rem;
 }
 
 .mg-header .mg-chart-description {
@@ -324,7 +324,7 @@ circle.mg-points-mono {
 .mg-y-axis text,
 .mg-histogram .axis text {
     fill: black;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     opacity: 0.6;
 }
 
@@ -352,7 +352,7 @@ circle.mg-points-mono {
 
 .mg-year-marker text {
     fill: black;
-    font-size: 0.7rem;
+    font-size: 1rem;
     opacity: 0.6;
 }
 
