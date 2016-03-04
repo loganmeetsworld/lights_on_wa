@@ -113,6 +113,8 @@ def create_contributions(dir)
         exit!
       end
 
+      candidate = Candidate.find_by(pdc_id_year: key + election).id
+
       csv.each do |row|
         row[" State"] == " WA" ? instate = true : instate = false
         contribution_hash = {
@@ -127,7 +129,7 @@ def create_contributions(dir)
           description:  row[" Description"],
           cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
           instate:      instate,
-          candidate_id: Candidate.find_by(pdc_id_year: key + election).id
+          candidate_id: candidate
         }
     
         contribution_array.push(Contribution.new(contribution_hash))
