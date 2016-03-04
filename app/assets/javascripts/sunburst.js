@@ -9,10 +9,9 @@ $(document).ready(function(){
 var zoomBurst = function(root_data, child) {
   var root = {"name": "All Candidates", "children": root_data}
 
-  var margin = {top: 20, right: 20, bottom: 20, left: 20},
-    width = 750 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-    radius = Math.min(width, height) / 2;
+  var width = 750,
+      height = 500;
+      radius = Math.min(width, height) / 2;
 
   var x = d3.scale.linear()
     .range([0, 2 * Math.PI]);
@@ -27,7 +26,7 @@ var zoomBurst = function(root_data, child) {
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-  var svg = d3.select(child).append("svg").attr("class", "col-md-offset-1")
+  var svg = d3.select(child).append("svg").attr("class", "col-md")
     .attr("width", width)
     .attr("height", height)
     .append("g")
@@ -56,9 +55,9 @@ var zoomBurst = function(root_data, child) {
       div.transition()
         .duration(200)
         .style("opacity", .9);
-      div.html("Location: " + d.name + "<br/>Number of Contributions: " + d.count + "<br/>Total Amount of Contributions: " + "$" + d.amount.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'))
+      div.html("Location: " + d.name + "<br/>Number of Contributions: " + d.num_donations + "<br/>Total Amount of Contributions: " + "$" + d.amount.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'))
         .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 28) + "px");
+        .style("top", (d3.event.pageY) + "px");
     })
     .on("mouseout", function(d) {
       div.transition()
@@ -88,8 +87,8 @@ var zoomBurst = function(root_data, child) {
 }
 
 function sunBurst(jsonObject){
-  var width = 960/2,
-      height = 700,
+  var width = 750/2,
+      height = 500,
       radius = Math.min(width, height) / 2,
       color = d3.scale.category20c();
 
@@ -97,7 +96,7 @@ var svg = d3.select(".sunburst").append("svg").attr("class", "center-sun")
   .attr("width", width)
   .attr("height", height)
   .append("g")
-  .attr("transform", "translate(" + width / 2 + "," + height * .52 + ")");
+  .attr("transform", "translate(" + width + "," + height + ")");
 
 var partition = d3.layout.partition()
   .sort(null)

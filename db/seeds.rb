@@ -88,6 +88,10 @@ def create_contributions(dir)
   contribution_array = []
   total_csv_load_time = Time.now 
 
+  count = 0 
+  dir = '/csvs'
+  dirs = Dir[File.join(dir, '**', '*')].count { |file| File.file?(file) }
+
   Dir.foreach(dir) do |item|
     # csv_time = Time.now
     puts item
@@ -136,6 +140,8 @@ def create_contributions(dir)
       end
     end
     # puts "time to load this csv: " + (Time.now - csv_time).to_s
+    puts count.to_s + "out of " + dirs.to_s
+    count += 1
   end
   
   puts "time to load all csvs and new conts: " + (Time.now - total_csv_load_time).to_s
