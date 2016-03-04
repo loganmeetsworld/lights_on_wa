@@ -25,8 +25,9 @@
       <div class="row-fluid">
         <ul class="nav nav-tabs">
           <li><%= link_to "View a Line Graph of Contributions", {:controller => "candidates", :action => "line", :id => @candidate.id}, :remote => true %></li>
+          <li id="clear"><%= fa_icon "angle-double-up" %></li>
           <li><%= link_to "View a Sunburst Graph By Location", {:controller => "candidates", :action => "burst", :id => @candidate.id}, :remote => true, id: "test_burst"%></li>
-          <li id="clear">Retract Graphs</li>
+          <li id="clear"><%= fa_icon "angle-double-up" %></li>
         </ul>
         <div id="content"></div>
         <div id="visual"></div>
@@ -36,11 +37,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $("li#clear").click(function(event){
-  $("#visual").html('');
-  $("#content").html('');
-});
-  
-</script>
