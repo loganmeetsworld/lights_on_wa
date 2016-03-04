@@ -150,7 +150,7 @@
 
   _F.addSearchBox = function(){
     if (this.opts.search_box) return;
-    $(this.main_container).before('<div class="col-xs-6"><input name="search" type="text" id="st_search" class="form-control" placeholder="Search the database for candidates. Transparency starts here."></div>');
+    $(this.main_container).before('<div class="col-xs-6"><input name="search" type="text" id="st_search" class="form-control" placeholder="Transparency starts here."></div>');
     this.opts.search_box = '#st_search';
   };
 
