@@ -9,9 +9,11 @@ $(document).ready(function(){
 var zoomBurst = function(root_data, child) {
   var root = {"name": "All Candidates", "children": root_data}
 
-  var width = 750,
-      height = 500;
-      radius = Math.min(width, height) / 2;
+  var width = $(child).width(),
+    aspect = 500 / 950;
+  var height = $(child).height(),
+    aspect = 500 / 950;
+  var radius = Math.min(width, height) / 2;
 
   var x = d3.scale.linear()
     .range([0, 2 * Math.PI]);
@@ -27,8 +29,10 @@ var zoomBurst = function(root_data, child) {
     .style("opacity", 0);
 
   var svg = d3.select(child).append("svg").attr("class", "col-md")
+    .attr("preserveAspectRatio", "xMidYMid")
+    .attr("viewBox", "0 0 950 500")
     .attr("width", width)
-    .attr("height", height)
+    .attr("height", width * aspect)
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + (height / 2 ) + ")");
 
@@ -151,3 +155,9 @@ function arcTween(a) {
 d3.select(self.frameElement).style("height", height + "px");
 
 };
+
+$(window).resize(function() {
+  var width = $(child).width();
+  svg.attr("width", width);
+  svg.attr("height", width * aspect);
+});
