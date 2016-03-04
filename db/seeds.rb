@@ -98,7 +98,7 @@ def create_contributions(dir)
     key = nil
     election = nil
 
-    csv = parse_csv('csvs/' + item)
+    csv = parse_csv(dir + item)
 
     if !(csv == nil)
       if item.split("statewide").length > 1
