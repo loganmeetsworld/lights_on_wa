@@ -31,17 +31,22 @@ class Candidate < ActiveRecord::Base
     candidate.contributions.where.not(state: " ").group_by { |v| v.instate }.map do |instate, contribution|
         {
           name: instate ? "IN STATE" : "OUT OF STATE",
+          count: contribution.count,
+          amount: contribution.inject(0){|sum,e| sum += e.amount },
           children: contribution.group_by{ |v| v.state }.map do |state, contribution|
             {
             name: state,
             count: contribution.count,
+            amount: contribution.inject(0){|sum,e| sum += e.amount },
             children: contribution.group_by{ |v| v.city }.map do |city, contribution|
               {
                 name: city,
                 count: contribution.count,
+                amount: contribution.inject(0){|sum,e| sum += e.amount },
                 children: contribution.group_by{ |v| v.name }.map do |name, contribution|
                   {
                     name: name,
+                    amount: contribution.inject(0){|sum,e| sum += e.amount },
                     count: contribution.count
                   }
                 end

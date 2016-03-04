@@ -40,12 +40,50 @@ li#login:active {
   background-size: cover;
 }
 
+
+path {
+  stroke: #fff;
+  fill-rule: evenodd;
+}
+
+text {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+/*add tooltip*/
+div.tooltip {
+  /*position: absolute;*/
+  top: 100px;
+  left: 100px;
+  -moz-border-radius:5px;
+  border-radius: 5px;
+  border: 2px solid #ff0000;
+  background: #fff;
+  opacity: .9;
+  color: black;
+  padding: 10px;
+  width: 400px;
+  font: 12px sans-serif;
+  font-size: 14px;
+  z-index: 10;
+}
+
+.tooltip .title {
+  font-size: 13px;
+}
+
+.tooltip .name {
+  font-weight:bold;
+  font-size: 15px;
+}
+
+
 #login-image a:hover {
   color: #F2F3F3;
 }
 
 #visual, #content {
-  margin: auto;
   text-align: center;
 }
 
@@ -79,16 +117,4 @@ nav {
 
 .fa-search {
   margin-bottom: 3px;
-}
-
-.preferred-login {
-  background: #f9f9f9;
-  width: 258px;
-  border: 1px solid #d4d4d4;
-  box-shadow: -1px 1px #f2f2f2;
-  color: #888;
-  padding: 7px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  height: 30px;
 }
