@@ -7,6 +7,7 @@
 body {
   font-family: 'Open Sans';
   color: black;
+  padding: 70px;
 }
 
 .navbar-default .navbar-nav > li > a {
@@ -38,10 +39,11 @@ li#login:active {
   background-color: #0000;
 }
 
-.navbar-default {
-    font-color: black;
-    height: 55px;
-    background-color: #FDA828;
+
+.fa-lightbulb-o {
+  color: black;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: orange;
 }
 
 path {
@@ -81,37 +83,11 @@ div.tooltip {
   font-size: 15px;
 }
 
-
-#login-image a:hover {
-  color: #F2F3F3;
-}
-
 #content, #visual {
   text-align: center;
-}
-
-.center #my-signin2 {
-  text-align: center;
-  margin: auto;
-  display: block;
-}
-
-nav {
-  font-family: Cabin;
-  color: black;
 }
 
 .navbar-default .navbar-brand a {
   font-family: Cabin,sans-serif;
   font-size: 30px;
-}
-
-.navbar-default .navbar-brand .sub-credit {
-  color: black;
-  font-family: "Muli",sans-serif;
-  font-size: 14px;
-}
-
-.fa-search {
-  margin-bottom: 3px;
 }
