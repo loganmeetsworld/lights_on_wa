@@ -5,7 +5,7 @@ $(document).ready(function(){
 });
 
 var tablehook = function() {
-  if ($('h2').text() === "Start Exploring Campaign Finance in WA State") {
+  if ($('h2').text().includes("Start Exploring Campaign Finance in WA State")) {
     var data = gon.candidates, html = $.trim($("#template").html()), template = Mustache.compile(html);
   } else if ($('h2').text().includes("RACE")) {
     var data = gon.contributions, html = $.trim($("#template").html()), template = Mustache.compile(html);
