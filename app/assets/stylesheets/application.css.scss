@@ -1,7 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono|News+Gothic|Inconsolata|Droid+Sans|Roboto|Cabin|Open+Sans|Raleway|Poiret+One|Lato');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono|News+Gothic|Fira+Sans|Inconsolata|Droid+Sans|Roboto|Cabin|Open+Sans|Raleway|Poiret+One|Lato');
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
 
 html,
@@ -65,7 +65,10 @@ hr.small {
   max-width: 100px;
 }
 
+
 .header {
+  font-family: Cabin, sans-serif;
+  color: #FFD144;
   display: table;
   position: relative;
   width: 100%;
