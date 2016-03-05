@@ -23,6 +23,22 @@ RSpec.describe CandidatesController, type: :controller do
     end
   end
 
+  describe "GET #line" do
+    it "renders the line page" do
+      session[:user_id] = user.id
+      get :line, id: candidate.id,:format => 'js'
+      expect(response).to render_template :line
+    end
+  end
+
+  describe "GET #burst" do
+    it "renders the burst page" do
+      session[:user_id] = user.id
+      get :burst, id: candidate.id,:format => 'js'
+      expect(response).to render_template :burst
+    end
+  end
+  
   describe "POST #save" do
     it "redirects to the candidate show page" do 
       session[:user_id] = user.id
