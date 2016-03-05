@@ -4,10 +4,85 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono|News+Gothic|Inconsolata|Droid+Sans|Roboto|Cabin|Open+Sans|Raleway|Poiret+One|Lato');
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
 
+html,
 body {
-  font-family: 'Open Sans';
-  color: black;
-  padding: 50px;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+#summary {
+  padding-bottom: 20px;
+}
+
+.text-vertical-center {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.text-vertical-center h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 4.5em;
+  font-weight: 700;
+}
+
+/* Custom Button Styles */
+
+.btn-dark {
+  border-radius: 0;
+  color: #fff;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.btn-dark:hover,
+.btn-dark:focus,
+.btn-dark:active {
+  color: #fff;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.btn-light {
+  border-radius: 0;
+  color: #333;
+  background-color: rgb(255,255,255);
+}
+
+.btn-light:hover,
+.btn-light:focus,
+.btn-light:active {
+  color: #333;
+  background-color: rgba(255,255,255,0.8);
+}
+
+/* Custom Horizontal Rule */
+
+hr.small {
+  max-width: 100px;
+}
+
+.header {
+  display: table;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: url('washington.jpeg') no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+.about {
+  padding: 50px 0;
+}
+
+#brand {
+  font-size: 20px;
 }
 
 .navbar-default .navbar-nav > li > a {
@@ -24,7 +99,7 @@ body {
 }
 
 li#login {
-  padding-right: 10px;
+  padding-right: 18px;
 }
 
 li#login:active {
@@ -34,11 +109,6 @@ li#login:active {
 .st_per_page {
   margin-bottom: 20px;
 }
-
-#wrapper {
-  background-color: #0000;
-}
-
 
 .fa-lightbulb-o {
   color: black;
@@ -85,9 +155,4 @@ div.tooltip {
 
 #content, #visual {
   text-align: center;
-}
-
-.navbar-default .navbar-brand a {
-  font-family: Cabin,sans-serif;
-  font-size: 30px;
 }
