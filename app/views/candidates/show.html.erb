@@ -1,39 +1,40 @@
-<h2><%= @candidate.name %> (<%= @candidate.year %> <%= @candidate.office %> RACE)</h2>
-<br>
+<div class="container">
+  <h2><%= @candidate.name %> (<%= @candidate.year %> <%= @candidate.office %> RACE)</h2>
+  <br>
 
-<% if flash[:error] %>
-  <strong><p class='flash'><%=h flash[:error] %></p></strong>
-<% end %>
+  <% if flash[:error] %>
+    <strong><p class='flash'><%=h flash[:error] %></p></strong>
+  <% end %>
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <i class="fa fa-user fa-fw"></i> Candidate Overview
-    <% if current_user %>
-      <% if !(current_user.candidates.include?(@candidate)) %>
-        <span class="pull-right"><%= link_to "Follow Candidate", candidate_path(@candidate), method: :post %></span>
-      <% else %>
-        <span class="pull-right"><%= link_to "Unfollow Candidate", candidate_path(@candidate), method: "delete" %></span>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <i class="fa fa-user fa-fw"></i> Candidate Overview
+      <% if current_user %>
+        <% if !(current_user.candidates.include?(@candidate)) %>
+          <span class="pull-right"><%= link_to "Follow Candidate", candidate_path(@candidate), method: :post %></span>
+        <% else %>
+          <span class="pull-right"><%= link_to "Unfollow Candidate", candidate_path(@candidate), method: "delete" %></span>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
+    </div>
 
+    <div class="panel-body">
+      <%= render partial: "shared/candidate_console" %>
 
-  <div class="panel-body">
-    <%= render partial: "shared/candidate_console" %>
-
-    <div class="col-lg-12">
-      <div class="row-fluid">
-        <ul class="nav nav-tabs">
-          <li><%= link_to "View a Line Graph of Contributions", {:controller => "candidates", :action => "line", :id => @candidate.id}, :remote => true %></li>
-          <li id="clear"><%= fa_icon "angle-double-up" %></li>
-          <li><%= link_to "View a Sunburst Graph By Location", {:controller => "candidates", :action => "burst", :id => @candidate.id}, :remote => true, id: "test_burst"%></li>
-          <li id="clear"><%= fa_icon "angle-double-up" %></li>
-        </ul>
-        <div id="content"></div>
-        <div id="visual"></div>
+      <div class="col-lg-12">
+        <div class="row-fluid">
+          <ul class="nav nav-tabs">
+            <li><%= link_to "View a Line Graph of Contributions", {:controller => "candidates", :action => "line", :id => @candidate.id}, :remote => true %></li>
+            <li id="clear"><%= fa_icon "angle-double-up" %></li>
+            <li><%= link_to "View a Sunburst Graph By Location", {:controller => "candidates", :action => "burst", :id => @candidate.id}, :remote => true, id: "test_burst"%></li>
+            <li id="clear"><%= fa_icon "angle-double-up" %></li>
+          </ul>
+          <div id="content"></div>
+          <div id="visual"></div>
+        </div>
+        <br>
+        <%= render partial: "shared/contribution_table" %>
       </div>
-      <br>
-      <%= render partial: "shared/contribution_table" %>
     </div>
   </div>
 </div>

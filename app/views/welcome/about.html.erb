@@ -1,44 +1,46 @@
-<div class="col-md-10 col-md-offset-1">
-  <h2>About Lights on WA</h2>
+<div class="container">
+  <div class="col-md-10 col-md-offset-1">
+    <h2>About Lights on WA</h2>
 
-  <p><strong>Lights on Washington</strong> is a tool for discovering political contributions in the state of Washington.</p>
+    <p><strong>Lights on Washington</strong> is a tool for discovering political contributions in the state of Washington.</p>
 
-  <p>The data comes from the <%= link_to "Public Disclosure Commission of Washington", "www.pdc.wa.gov" %>, which has been collecting this data on paper since 1972 and electronically since 2000. I built Lights on WA to give citizens better access to searching Statewide, Legislative, and Judicial candidates in this database.  </p>
+    <p>The data comes from the <%= link_to "Public Disclosure Commission of Washington", "www.pdc.wa.gov" %>, which has been collecting this data on paper since 1972 and electronically since 2000. I built Lights on WA to give citizens better access to searching Statewide, Legislative, and Judicial candidates in this database.  </p>
 
-  <h3>What kind of candidates can I search for here?</h3>
-  <p>Currently the website supports statewide, legislative, and judicial candidates. I am hoping to update the site with all local candidates soon. For now, Lights on WA supports daily updates for those three categories of candidates. The PDC includes electronic data on these candidates from 2000 through the most recent filings.</p>
+    <h3>What kind of candidates can I search for here?</h3>
+    <p>Currently the website supports statewide, legislative, and judicial candidates. I am hoping to update the site with all local candidates soon. For now, Lights on WA supports daily updates for those three categories of candidates. The PDC includes electronic data on these candidates from 2000 through the most recent filings.</p>
 
-  <h3>What can I do on this site?</h3>
-  <p>You can search for candidates and for any of the data pertaining to those candidates in the database, view all of their contributions, save and compare candidates over election periods, and view visualizations of candidate campaign contribution data.</p>
+    <h3>What can I do on this site?</h3>
+    <p>You can search for candidates and for any of the data pertaining to those candidates in the database, view all of their contributions, save and compare candidates over election periods, and view visualizations of candidate campaign contribution data.</p>
 
 
-  <h3>How is campaign finance disclosed?</h3>
-  <p>A ballot committee that expects to raise and spend more than $5,000 during the course of an election must adhere to Washington's PDC's full reporting requirements (a committee that does not meet this threshold may be eligible to file reports on an attenuated schedule). For all contributions exceeding $25 total, the committee must report the donor's name and address. If an individual contributes more than $100 total to the committee, the committee must also report the donor's employer and occupation. For all expenditures exceeding $50, the committee must report the name and address of the recipient, as well as the purpose and amount of the expenditure. A full list of contirbution limits can be found <%= link_to "here", "http://www.pdc.wa.gov/public/contributionlimits.aspx" %>.</p>
+    <h3>How is campaign finance disclosed?</h3>
+    <p>A ballot committee that expects to raise and spend more than $5,000 during the course of an election must adhere to Washington's PDC's full reporting requirements (a committee that does not meet this threshold may be eligible to file reports on an attenuated schedule). For all contributions exceeding $25 total, the committee must report the donor's name and address. If an individual contributes more than $100 total to the committee, the committee must also report the donor's employer and occupation. For all expenditures exceeding $50, the committee must report the name and address of the recipient, as well as the purpose and amount of the expenditure. A full list of contirbution limits can be found <%= link_to "here", "http://www.pdc.wa.gov/public/contributionlimits.aspx" %>.</p>
 
-  <h3>Data quality</h3>
-  <p>The data hosted on this site was scraped directly from the PDC's website. Some of the PDC's information is sometimes incomplete or unclear. Because the PDC is not responsible for fact-checking every contribution or sanitizing the data, sometimes the CSV's or table data can be corrupted. I have attempted to ensure here that the data is as complete as possible and updated in a timely manner.</p>
+    <h3>Data quality</h3>
+    <p>The data hosted on this site was scraped directly from the PDC's website. Some of the PDC's information is sometimes incomplete or unclear. Because the PDC is not responsible for fact-checking every contribution or sanitizing the data, sometimes the CSV's or table data can be corrupted. I have attempted to ensure here that the data is as complete as possible and updated in a timely manner.</p>
 
-  <h3>Code</h3>
+    <h3>Code</h3>
 
-  <p>All the code for this site is open source on <%= link_to "Github", "https://github.com/loganmeetsworld/lights_on_wa" %>. It was built with:</p>
+    <p>All the code for this site is open source on <%= link_to "Github", "https://github.com/loganmeetsworld/lights_on_wa" %>. It was built with:</p>
 
-  <ul>
-    <li><a href="http://www.http://rubyonrails.org/">Rails</a> - ruby web framework</li>
-    <li><a href="https://dev.mysql.com/">MySQL</a> - to host the database</li>
-    <li><a href="https://github.com/javan/whenever">Whenever gem and Cron</a> - to get daily updates from the PDC</li>
-    <li><a href="http://aws.amazon.com/">Amazon Web Services</a> - servers and file storage</li>
-    <li><a href="http://getbootstrap.com">Bootstrap</a> - HTML and CSS scaffolding</li>
-    <li><a href="https://github.com/jiren/StreamTable.js">StreamTables.js</a> - searchable and sortable HTML tables</li>
-    <li><a href="https://d3js.org/">D3</a> - JavaScript library for data visualizations</li>
-  </ul>
+    <ul>
+      <li><a href="http://www.http://rubyonrails.org/">Rails</a> - ruby web framework</li>
+      <li><a href="https://dev.mysql.com/">MySQL</a> - to host the database</li>
+      <li><a href="https://github.com/javan/whenever">Whenever gem and Cron</a> - to get daily updates from the PDC</li>
+      <li><a href="http://aws.amazon.com/">Amazon Web Services</a> - servers and file storage</li>
+      <li><a href="http://getbootstrap.com">Bootstrap</a> - HTML and CSS scaffolding</li>
+      <li><a href="https://github.com/jiren/StreamTable.js">StreamTables.js</a> - searchable and sortable HTML tables</li>
+      <li><a href="https://d3js.org/">D3</a> - JavaScript library for data visualizations</li>
+    </ul>
 
-  <h3>Credit</h3>
+    <h3>Credit</h3>
 
-  <p>This is a project written and maintained by <%= link_to "Logan McDonald", "www.github.com/loganmeetsworld" %>.</p>
+    <p>This is a project written and maintained by <%= link_to "Logan McDonald", "www.github.com/loganmeetsworld" %>.</p>
 
-  <h3>Contact me</h3>
+    <h3>Contact me</h3>
 
-  <p>Found a bug? Report it on my <a href="https://github.com/loganmeetsworld/lights_on_wa">issue tracker</a>.</p>
+    <p>Found a bug? Report it on my <a href="https://github.com/loganmeetsworld/lights_on_wa">issue tracker</a>.</p>
 
-  <p>Have a suggestion? <a href="mailto:loganmcdona11@gmail.com">Contact me</a>.</p>
+    <p>Have a suggestion? <a href="mailto:loganmcdona11@gmail.com">Contact me</a>.</p>
+  </div>
 </div>
