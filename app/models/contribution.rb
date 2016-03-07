@@ -121,7 +121,6 @@ class Contribution < ActiveRecord::Base
           break
         end
 
-        puts candidate
         if !(candidate.contributions.empty?)
           latest_date = candidate.contributions.max_by {|obj| obj.date }.date
         else
