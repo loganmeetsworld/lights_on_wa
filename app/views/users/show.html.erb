@@ -1,3 +1,4 @@
+<div class="container">
 <% if current_user.candidates.empty? %>
   <h3>You have no candidates saved.</h3>
   <% if flash[:error] %>
@@ -5,12 +6,12 @@
   <% end %>
 <% else %>
 
-  <h3>Your Candidates</h3>
+  <h3 style="text-align: center"><%= current_user.username.titlecase %>'s Candidates</h3>
   <% if flash[:error] %>
     <strong><p class='flash'><%=h flash[:error] %></p></strong>
   <% end %>
 
-  <h3>Compare Contributions Over Election Cycle</h3>
+  <h4>Compare Contributions Over Election Cycle</h4>
 
   <% count = 0 %>
   <% @candidates.each do |candidate| %>
@@ -25,3 +26,4 @@
     <% count += 1 %>
   <% end %> 
 <% end %>
+</div>

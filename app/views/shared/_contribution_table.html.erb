@@ -4,9 +4,9 @@
   <thead>
     <tr>
       <th>#</th>
-      <th data-sort="name:asc">Name (sort)</th>
-      <th data-sort="amount:desc">Amount (sort)</th>
-      <th data-sort="date:desc">Date (sort)</th>
+      <th data-sort="name:asc">Name <%= fa_icon "sort" %></th>
+      <th data-sort="amount:desc">Amount <%= fa_icon "sort" %></th>
+      <th data-sort="date:desc">Date <%= fa_icon "sort" %></th>
       <th>Employer</th>
       <th>Occupation</th>
       <th>City</th>
@@ -23,7 +23,7 @@
   <tr>
     <td>{{index}}</td>
     <td>{{record.name}}</td>
-    <td>{{record.money_amount}}</td>
+    <td class="col-sm-1">{{record.money_amount}}</td>
     <td class="col-sm-1">{{record.date}}</td>    
     <td>{{record.employer}}</td>
     <td>{{record.occupation}}</td>
