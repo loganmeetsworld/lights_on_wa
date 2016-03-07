@@ -14,6 +14,10 @@ var tablehook = function() {
   };
   
   var view = function(record, index){
+    record.money_raised = accounting.formatMoney(record.raised);
+    record.money_spent = accounting.formatMoney(record.spent);
+    record.money_amount = accounting.formatMoney(record.amount);
+
     return template({record: record, index: index});
   };
   var $summary = $('#summary');

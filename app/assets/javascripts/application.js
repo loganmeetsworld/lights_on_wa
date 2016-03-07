@@ -21,6 +21,7 @@
 //= require stream_sorting
 //= require sweetalert
 //= require candidates
+//= require accounting
 //= require_tree .
   
 // Flash notification fade in and out
