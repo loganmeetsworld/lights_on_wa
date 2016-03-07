@@ -84,7 +84,6 @@ end
 
 def create_contributions(dir)
   values = nil
-  columns = [:name, :city, :state, :zip, :employer, :occupation, :date, :amount, :description, :cont_type, :candidate_id]
   contribution_array = []
   total_csv_load_time = Time.now 
 
