@@ -30,7 +30,6 @@ class Candidate < ActiveRecord::Base
         end
       end
     end
-    puts "LOADS IS WORKING"
     return pages
   end
 

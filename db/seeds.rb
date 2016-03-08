@@ -74,6 +74,7 @@ def parse_csv(file)
     my_header = CSV.parse(open(file, "rb:#{encoding}")).drop(4).first # is read necessary here? 
     data      = CSV.parse(open(file, "rb:#{encoding}"), :headers => my_header).drop(5)
   rescue SocketError
+    puts file
     puts "socket error"
   rescue CSV::MalformedCSVError
     puts file
@@ -85,9 +86,6 @@ end
 def create_contributions(dir)
   values = nil
   contribution_array = []
-  total_csv_load_time = Time.now 
-
-  count = 0 
 
   Dir.foreach(dir) do |item|
     # csv_time = Time.now
@@ -136,23 +134,16 @@ def create_contributions(dir)
         contribution_array.push(Contribution.new(contribution_hash))
       end
     end
-    # puts "time to load this csv: " + (Time.now - csv_time).to_s
-    puts "On csv number: " + count.to_s
-    count += 1
-  end
-  
-  puts "time to load all csvs and new conts: " + (Time.now - total_csv_load_time).to_s
-
-  import_time = Time.now
+  end  
   Contribution.import(contribution_array)
-  puts "import time: " + (Time.now - import_time).to_s + "\n\n"
 end
 
-total_time = Time.now
 candidate_time = Time.now
 create_candidates()
 puts "Total time for just candidates seeding: " + (Time.now - candidate_time).to_s
 
-create_contributions('csvs/part1/')
-create_contributions('csvs/part2/')
-puts "Total time for candidates and contributions seeding: " + (Time.now - total_time).to_s
+# create_contributions('csvs/part1/')
+# create_contributions('csvs/part2/')
+# create_contributions('csvs/part3/')
+# create_contributions('csvs/part4/')
+create_contributions('csvs/all/')

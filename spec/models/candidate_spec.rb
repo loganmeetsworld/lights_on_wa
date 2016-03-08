@@ -83,4 +83,21 @@ RSpec.describe Candidate, type: :model do
       expect(sunburst_array.first[:children].first[:children].first[:children].first[:name]).to eq "BILL" 
     end
   end
+
+  describe "#self.load_pages" do 
+    it "loads an array of pages" do 
+      expect(Candidate.load_pages()).to be_an_instance_of Array
+    end
+
+    it "loads Nokogiri objects" do 
+      expect(Candidate.load_pages().first.class).to eq Nokogiri::HTML::Document
+    end
+  end
+
+  describe "#self.cron_job" do 
+    it "creates a candidate if one is available" do 
+      Candidate.cron_job()
+      expect(Candidate.all.last.created_at.day).to eq Time.now.day 
+    end
+  end
 end
