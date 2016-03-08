@@ -30,6 +30,7 @@ class Candidate < ActiveRecord::Base
         end
       end
     end
+    puts "LOADS IS WORKING"
     return pages
   end
 
@@ -51,7 +52,10 @@ class Candidate < ActiveRecord::Base
               raised = child.children[4].text[1..-1].gsub(",", "").to_f
               spent  = child.children[5].text[1..-1].gsub(",", "").to_f
               debt   = child.children[6].text[1..-1].gsub(",", "").to_f
-              Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, office_type: "statewide",party: party, raised: raised, spent: spent, debt: debt)
+              c = Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, office_type: "statewide",party: party, raised: raised, spent: spent, debt: debt)
+              if c.save 
+                puts "Saved a new candidate: " + c.pdc_id_year
+              end
             when "legislative"
               dist   = child.children[2].text
               office = child.children[3].text            
@@ -60,14 +64,20 @@ class Candidate < ActiveRecord::Base
               raised = child.children[6].text[1..-1].gsub(",", "").to_f
               spent  = child.children[7].text[1..-1].gsub(",", "").to_f
               debt   = child.children[8].text[1..-1].gsub(",", "").to_f
-              Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, dist: dist, pos: pos, party: party, raised: raised, spent: spent, debt: debt, office: office, office_type: "legislative")
+              c = Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, dist: dist, pos: pos, party: party, raised: raised, spent: spent, debt: debt, office: office, office_type: "legislative")
+              if c.save 
+                puts "Saved a new candidate: " + c.pdc_id_year
+              end
             when "judicial"
               office = child.children[2].text
               pos    = child.children[4].text
               raised = child.children[5].text[1..-1].gsub(",", "").to_f
               spent  = child.children[6].text[1..-1].gsub(",", "").to_f
               debt   = child.children[7].text[1..-1].gsub(",", "").to_f
-              Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, pos: pos, office_type: "judicial", raised: raised, spent: spent, debt: debt)
+              c = Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, pos: pos, office_type: "judicial", raised: raised, spent: spent, debt: debt)
+              if c.save 
+                puts "Saved a new candidate: " + c.pdc_id_year
+              end
             end
           end
         end

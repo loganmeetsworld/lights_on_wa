@@ -4,6 +4,7 @@ require 'csv'
 class Contribution < ActiveRecord::Base
   belongs_to :candidate
   belongs_to :contributor
+  validates :name, uniqueness: { scope: [:date, :cont_type, :candidate_id, :amount, :city, :state] }
 
   def self.save_csvs(url)
     encoding  = "ISO-8859-1"
@@ -12,6 +13,7 @@ class Contribution < ActiveRecord::Base
       f = File.new("new_csvs/#{url.split("param=")[1].split("===")[0] + url.split("type=")[1].split("&")[0] + url.split("year=")[1].split("&")[0] + url.split("tab=")[1].split("&")[0]}", "w")
 
       f << url_data
+      puts "success!"
     rescue SocketError
       puts "socket error"
     rescue CSV::MalformedCSVError
