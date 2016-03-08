@@ -6,7 +6,7 @@
   <% end %>
 <% else %>
 
-  <h3 style="text-align: center"><%= current_user.username.titlecase %>'s Candidates</h3>
+  <h3 style="text-align: center">Your Candidates</h3>
   <% if flash[:error] %>
     <strong><p class='flash'><%=h flash[:error] %></p></strong>
   <% end %>
