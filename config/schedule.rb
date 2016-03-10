@@ -5,6 +5,6 @@ every 1.day, :at => '1:00 am' do
   runner "Candidate.cron_job"
 end
 
-every 1.day, :at => '1:30 am' do
+every 1.day, :at => '2:37 pm' do
   runner "Contribution.cron_job"
 end
