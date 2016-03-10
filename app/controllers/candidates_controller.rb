@@ -9,7 +9,7 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.find(params[:id])
 
     gon.contributions = Rails.cache.fetch("contributions_for_#{@candidate.pdc_id_year}") do 
-      @candidate.contributions
+      @candidate.contributions.where("amount > ?", 10)
     end
 
     gon.candidate_sunburst_data = Rails.cache.fetch("sunburst_for_#{@candidate.pdc_id_year}") do 

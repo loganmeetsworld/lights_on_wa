@@ -103,7 +103,7 @@ class Candidate < ActiveRecord::Base
   end
 
   def self.get_sunburst_data(candidate)
-    candidate.contributions.where.not(state: " ").group_by { |v| v.instate }.map do |instate, contribution|
+    candidate.contributions.where("amount > ?", 200).where.not(state: " ").group_by { |v| v.instate }.map do |instate, contribution|
         {
           name: instate ? "IN STATE" : "OUT OF STATE",
           num_donations: contribution.count,
