@@ -19,7 +19,7 @@ class CandidatesController < ApplicationController
 
   def contributions_data
     candidate = Candidate.find(params[:id])
-    contributions = candidate.contributions.order(:amount)
+    contributions = candidate.contributions.order('amount DESC')
     min = params[:offset].to_i + 1
     max = min + 1000
     if params[:offset].to_i <= contributions.length
