@@ -20,6 +20,9 @@ gem 'gon'
 # Cron jobs
 gem 'whenever', :require => false
 
+# Caching
+gem 'dalli'
+
 # Authentication
 gem 'omniauth'
 gem 'omniauth-oauth2', '~> 1.3.1'

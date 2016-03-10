@@ -597,3 +597,9 @@ success!
 success!
 success!
 Running via Spring preloader in process 24742
+config.eager_load is set to nil. Please update your config/environments/*.rb files accordingly:
+
+  * development - set it to false
+  * test - set it to false (unless you use a tool that preloads your test environment)
+  * production - set it to true
+

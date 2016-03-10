@@ -1,12 +1,20 @@
 class CandidatesController < ApplicationController
   def index
-    gon.candidates = Candidate.all
+    gon.candidates = Rails.cache.fetch('gon.candidates') do 
+      Candidate.all
+    end
   end
 
   def show
     @candidate = Candidate.find(params[:id])
-    gon.contributions = @candidate.contributions
-    gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
+
+    gon.contributions = Rails.cache.fetch("contributions_for_#{@candidate.pdc_id_year}") do 
+      @candidate.contributions
+    end
+
+    gon.candidate_sunburst_data = Rails.cache.fetch("sunburst_for_#{@candidate.pdc_id_year}") do 
+      Candidate.get_sunburst_data(@candidate)
+    end
   end
 
   def line
@@ -20,7 +28,6 @@ class CandidatesController < ApplicationController
 
   def burst    
     @candidate = Candidate.find(params[:id])
-    gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
     respond_to do |format|
       format.js
       format.html

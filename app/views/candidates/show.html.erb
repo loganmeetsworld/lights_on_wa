@@ -19,7 +19,7 @@
     </div>
 
     <div class="panel-body">
-      <%= render partial: "shared/candidate_console" %>
+      <%= render partial: "shared/candidate_console", cached: true %>
 
       <div class="col-lg-12">
         <div class="row-fluid">
@@ -33,7 +33,7 @@
           <div id="visual"></div>
         </div>
         <br>
-        <%= render partial: "shared/contribution_table" %>
+        <%= render partial: "shared/contribution_table", cached: true %>
       </div>
     </div>
   </div>
