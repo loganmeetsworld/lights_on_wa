@@ -68,7 +68,7 @@ RSpec.describe Candidate, type: :model do
     end
 
     it "produces whether in or out of state first level down in the hash" do
-      expect(sunburst_array.first[:name]).to eq "OUT OF STATE" 
+      expect(sunburst_array.first[:name]).to eq "IN STATE" 
     end
 
     it "produces states second level down in the hash" do
