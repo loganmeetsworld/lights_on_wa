@@ -6,9 +6,11 @@ $(document).ready(function(){
 
 var tablehook = function() {
   if ($('h2').text().includes("Start Exploring Campaign Finance in WA State")) {
-    var data = gon.candidates, html = $.trim($("#template").html()), template = Mustache.compile(html);
+    var data = gon.candidates.slice(0, 100), html = $.trim($("#template").html()), template = Mustache.compile(html);
+    var data_url = 'data'
   } else if ($('h2').text().includes("RACE")) {
     var data = gon.contributions, html = $.trim($("#template").html()), template = Mustache.compile(html);
+    var data_url = 'contributions_data'
   } else {
     console.log("no data needed for table");
   };
@@ -51,9 +53,10 @@ var tablehook = function() {
   st = StreamTable('#stream_table',
     { view: view, 
       per_page: 10, 
+      data_url: data_url,
       stream_after: 0.5,
       auto_sorting: true,
-      fetch_data_limit: 100,
+      fetch_data_limit: 500,
       callbacks: callbacks,
       pagination: {span: 5, next_text: 'Next &rarr;', prev_text: '&larr; Previous'}
     }

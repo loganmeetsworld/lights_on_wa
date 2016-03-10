@@ -5,16 +5,37 @@ class CandidatesController < ApplicationController
     end
   end
 
+  def data
+    candidates = Candidate.all
+    min = params[:offset].to_i + 1
+    max = min + params[:limit].to_i
+    if params[:offset].to_i < candidates.length
+      candidate_json = candidates.where(:id => min..max).as_json
+      render json: candidate_json
+    else
+      render json: [], status: 204
+    end
+  end
+
+  def contributions_data
+    candidate = Candidate.find(params[:id])
+    contributions = candidate.contributions.order(:amount)
+    min = params[:offset].to_i + 1
+    max = min + 1000
+    if params[:offset].to_i <= contributions.length
+      contribution_json = contributions[min..max].as_json
+      render json: contribution_json
+    else
+      render json: [], status: 204
+    end
+  end
+
   def show
     @candidate = Candidate.find(params[:id])
+    first_five = @candidate.contributions.length * 0.05
+    gon.contributions = @candidate.contributions.order('amount DESC').first(first_five)
 
-    gon.contributions = Rails.cache.fetch("contributions_for_#{@candidate.pdc_id_year}") do 
-      @candidate.contributions.where("amount > ?", 10)
-    end
-
-    gon.candidate_sunburst_data = Rails.cache.fetch("sunburst_for_#{@candidate.pdc_id_year}") do 
-      Candidate.get_sunburst_data(@candidate)
-    end
+    gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
   end
 
   def line
@@ -22,7 +43,6 @@ class CandidatesController < ApplicationController
     @date_amounts = Candidate.create_date_hash(@candidate.contributions)
     respond_to do |format|
       format.js
-      format.html
     end
   end
 
@@ -30,7 +50,6 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.find(params[:id])
     respond_to do |format|
       format.js
-      format.html
     end
   end
 

@@ -289,6 +289,9 @@
     if (this.opts.fetch_data_limit) {
       params['limit'] = this.opts.fetch_data_limit;
       params['offset'] = this.data.length;
+      var my_array = window.location.href.split("/")
+      params['id'] = my_array[my_array.length - 1];
+      console.log(params);
     }
 
     $.getJSON(this.opts.data_url, params).done(function(data){

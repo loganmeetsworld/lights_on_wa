@@ -16,6 +16,7 @@ gem 'therubyracer', platforms: :ruby
 
 # Javascript-ruby connections
 gem 'gon'
+gem 'httparty'
 
 # Cron jobs
 gem 'whenever', :require => false
