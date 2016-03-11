@@ -1,4 +1,8 @@
 class CandidatesController < ApplicationController
+  def letsencrypt
+    render plain: ENV['LE_AUTH_RESPONSE']
+  end
+
   def index
     gon.candidates = Rails.cache.fetch('gon.candidates') do 
       Candidate.all

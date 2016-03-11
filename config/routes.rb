@@ -3,9 +3,11 @@ Rails.application.routes.draw do
   root 'candidates#index'
   get 'about' => 'welcome#about', :as => :about
 
-  get 'candidates/contributions_data/' => 'candidates#contributions_data', :as => :contributions_data
+  get "/.well-known/acme-challenge/#{ENV['LE_AUTH_REQUEST']}", to: 'candidates#letsencrypt'
 
-    get 'data' => 'candidates#data'
+  # json endpoints
+  get 'candidates/contributions_data/' => 'candidates#contributions_data', :as => :contributions_data
+  get 'data' => 'candidates#data'
 
 
   # Candidates and users' pages
