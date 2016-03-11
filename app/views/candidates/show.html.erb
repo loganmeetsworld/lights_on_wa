@@ -16,9 +16,9 @@
       <i class="fa fa-user fa-fw"></i> Candidate Overview
       <% if current_user %>
         <% if !(current_user.candidates.include?(@candidate)) %>
-          <div id="test"><span class="pull-right"><%= link_to "Follow Candidate", candidate_path(@candidate), method: :post %></span></div>
+          <span class="pull-right"><%= link_to "Follow Candidate", candidate_path(@candidate), method: :post %></span>
         <% else %>
-          <div id="test"><span class="pull-right"><%= link_to "Unfollow Candidate", candidate_path(@candidate), method: "delete" %></span></div>
+          <span class="pull-right"><%= link_to "Unfollow Candidate", candidate_path(@candidate), method: "delete" %></span>
         <% end %>
       <% end %>
     </div>
