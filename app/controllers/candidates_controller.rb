@@ -36,9 +36,9 @@ class CandidatesController < ApplicationController
 
   def show
     @candidate = Candidate.find(params[:id])
-    first_one = @candidate.contributions.length * 0.01
+    # first_one = @candidate.contributions.length * 0.01
 
-    gon.contributions = @candidate.contributions.order('amount DESC').first(first_one)
+    gon.contributions = @candidate.contributions.order('amount DESC').first(10)
 
     gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
   end
