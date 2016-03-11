@@ -17,5 +17,8 @@
 /tmp
 .env
 config/
-.yml
+*.yml
 coverage/
+*.pem
+/ssl
+*.der

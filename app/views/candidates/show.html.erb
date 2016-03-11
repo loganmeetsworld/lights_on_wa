@@ -1,3 +1,8 @@
+<div class="wrapperloading">
+  <div class="loading up"></div>
+  <div class="loading down"></div>
+</div>
+
 <div class="container">
   <h2><%= @candidate.name %> (<%= @candidate.year %> <%= @candidate.office %> RACE)</h2>
   <br>
@@ -11,9 +16,9 @@
       <i class="fa fa-user fa-fw"></i> Candidate Overview
       <% if current_user %>
         <% if !(current_user.candidates.include?(@candidate)) %>
-          <span class="pull-right"><%= link_to "Follow Candidate", candidate_path(@candidate), method: :post %></span>
+          <div id="test"><span class="pull-right"><%= link_to "Follow Candidate", candidate_path(@candidate), method: :post %></span></div>
         <% else %>
-          <span class="pull-right"><%= link_to "Unfollow Candidate", candidate_path(@candidate), method: "delete" %></span>
+          <div id="test"><span class="pull-right"><%= link_to "Unfollow Candidate", candidate_path(@candidate), method: "delete" %></span></div>
         <% end %>
       <% end %>
     </div>
