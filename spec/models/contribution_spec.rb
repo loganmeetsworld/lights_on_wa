@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Contribution, type: :model do
+  let(:candidate) { create(:candidate) }
+  let(:contribution) { create(:contribution) }
+
   describe "#self.save_csvs(url)" do 
     it "saves a new csv" do 
       url = "http://www.pdc.wa.gov/MvcQuerySystem/CandidateData/excel?param=SU5TTEogIDExMA====&year=2016&tab=contributions&type=statewide&page=1&orderBy=&groupBy=&filterBy="
@@ -8,32 +11,11 @@ RSpec.describe Contribution, type: :model do
     end
   end
 
-  describe "#self.read_out_csvs(ids)" do 
-    it "creates new csv" do 
-    end
-  end
-
-  describe "#self.collect_csvs" do 
-    it "" do 
-    end
-
-    it "" do 
-    end
-  end
-
-  describe "#self.parse_csv" do 
-    it "" do 
-    end
-
-    it "" do 
-    end
-  end
-
-  describe "#self.cron_job" do 
-    it "" do 
-    end
-
-    it "" do 
+  describe "#self.cron_job()" do 
+    it "empties new_csvs" do 
+      Candidate.cron_job
+      Contribution.cron_job
+      expect(Dir["new_csvs/**/*"]).to eq []
     end
   end
 end

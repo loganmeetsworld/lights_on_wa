@@ -114,7 +114,7 @@ class Contribution < ActiveRecord::Base
         candidate = Candidate.find_by(pdc_id_year: key + election)
 
         if candidate.nil? 
-          puts "Broke because candidates doesn't exist: " + candidates
+          puts "Broke because candidates doesn't exist: " + candidate
           break
         end
 

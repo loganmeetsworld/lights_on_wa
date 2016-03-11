@@ -13,7 +13,7 @@ class CandidatesController < ApplicationController
     candidates = Candidate.all
     min = params[:offset].to_i + 1
     max = min + params[:limit].to_i
-    if params[:offset].to_i < candidates.length
+    if params[:offset].to_i <= candidates.length
       candidate_json = candidates.where(:id => min..max).as_json
       render json: candidate_json
     else
