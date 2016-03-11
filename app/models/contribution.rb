@@ -13,7 +13,6 @@ class Contribution < ActiveRecord::Base
       f = File.new("new_csvs/#{url.split("param=")[1].split("===")[0] + url.split("type=")[1].split("&")[0] + url.split("year=")[1].split("&")[0] + url.split("tab=")[1].split("&")[0]}", "w")
 
       f << url_data
-      puts "success!"
     rescue SocketError
       puts "socket error"
     rescue CSV::MalformedCSVError
@@ -44,13 +43,11 @@ class Contribution < ActiveRecord::Base
 
       page = Nokogiri::HTML(RestClient.get(url))
       years =  page.css('#YearList')[0].text.split("\r\n").select{|year| year.to_i >= Time.now.year}
-      puts url 
 
       years.each do |year|
         url_with_year = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}"
         page_with_year = Nokogiri::HTML(RestClient.get(url_with_year))
         num_pages = (page_with_year.css('.t-status-text').text.split(' ')[-1].to_i / 15.0).ceil
-        puts num_pages
 
         (1..num_pages).to_a.each do |n|
           page_url = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}&page=#{n}"
@@ -92,7 +89,6 @@ class Contribution < ActiveRecord::Base
     Contribution.collect_csvs()
     values = nil
     contribution_array = []
-    candidates = []
 
     Dir.foreach('new_csvs/') do |item|
       next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
@@ -118,8 +114,7 @@ class Contribution < ActiveRecord::Base
         candidate = Candidate.find_by(pdc_id_year: key + election)
 
         if candidate.nil? 
-          candidates << [key, election]
-          puts candidates
+          puts "Broke because candidates doesn't exist: " + candidates
           break
         end
 
@@ -153,7 +148,7 @@ class Contribution < ActiveRecord::Base
       end
     end    
     Contribution.import(contribution_array)
-    puts contribution_array
+    puts Contribution.where("created_at >= ?", Time.zone.now.beginning_of_day)
     FileUtils.rm_rf(Dir.glob('new_csvs/*'))
   end
 end
