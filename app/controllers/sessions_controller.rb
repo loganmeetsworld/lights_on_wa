@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    set_last_seen_at
     reset_session
     redirect_to root_url
   end

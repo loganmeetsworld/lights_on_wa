@@ -86,6 +86,7 @@ end
 def create_contributions(dir)
   values = nil
   contribution_array = []
+  expenditure_array = []
 
   Dir.foreach(dir) do |item|
     # csv_time = Time.now
@@ -112,29 +113,47 @@ def create_contributions(dir)
         exit!
       end
 
-      candidate = Candidate.find_by(pdc_id_year: key + election).id
+      candidate_id = Candidate.find_by(pdc_id_year: key + election).id
 
-      csv.each do |row|
-        row[" State"] == " WA" ? instate = true : instate = false
-        contribution_hash = {
-          name:         row["Contributor"],
-          city:         row[" City"],
-          state:        row[" State"],
-          zip:          row[" Zip"],
-          employer:     row[" Employer"],
-          occupation:   row[" Occupation"],
-          date:         row[" Date"],
-          amount:       row[" Amount"],
-          description:  row[" Description"],
-          cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
-          instate:      instate,
-          candidate_id: candidate
-        }
-    
-        contribution_array.push(Contribution.new(contribution_hash))
+      if item.split("20")[1].split(/(\d+)/)[-1] == "expenditures"
+        csv.each do |row|
+          row[" State"] == " WA" ? instate = true : instate = false
+          expenditure_hash = {
+            name:         row["Name"],
+            city:         row[" City"],
+            state:        row[" State"],
+            zip:          row[" Zip"],
+            date:         row[" Date"],
+            amount:       row[" Amount"],
+            description:  row[" Description"],
+            instate:      instate,
+            candidate_id: candidate_id
+          }
+          expenditure_array.push(Expenditure.new(expenditure_hash))
+        end
+      else
+        csv.each do |row|
+          row[" State"] == " WA" ? instate = true : instate = false
+          contribution_hash = {
+            name:         row["Contributor"],
+            city:         row[" City"],
+            state:        row[" State"],
+            zip:          row[" Zip"],
+            employer:     row[" Employer"],
+            occupation:   row[" Occupation"],
+            date:         row[" Date"],
+            amount:       row[" Amount"],
+            description:  row[" Description"],
+            cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
+            instate:      instate,
+            candidate_id: candidate_id
+          }
+          contribution_array.push(Contribution.new(contribution_hash))
+        end
       end
     end
   end  
+  Expenditure.import(expenditure_array)
   Contribution.import(contribution_array)
 end
 
@@ -142,8 +161,8 @@ candidate_time = Time.now
 create_candidates()
 puts "Total time for just candidates seeding: " + (Time.now - candidate_time).to_s
 
-# create_contributions('csvs/part1/')
-# create_contributions('csvs/part2/')
-# create_contributions('csvs/part3/')
-# create_contributions('csvs/part4/')
-create_contributions('csvs/all/')
+create_contributions('csvs/part1/')
+create_contributions('csvs/part2/')
+create_contributions('csvs/part3/')
+create_contributions('csvs/part4/')
+# create_contributions('csvs/all/')

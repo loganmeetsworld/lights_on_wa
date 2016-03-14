@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160303213017) do
+ActiveRecord::Schema.define(version: 20160314203049) do
 
   create_table "candidates", force: :cascade do |t|
     t.datetime "created_at",  null: false
@@ -64,13 +64,28 @@ ActiveRecord::Schema.define(version: 20160303213017) do
     t.boolean  "instate"
   end
 
+  create_table "expenditures", force: :cascade do |t|
+    t.string   "date"
+    t.integer  "amount"
+    t.string   "candidate_id"
+    t.string   "description"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.boolean  "instate"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "name"
+  end
+
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.string   "uid"
     t.string   "username"
     t.string   "image_url"
     t.string   "provider"
+    t.datetime "last_seen_at"
   end
 
 end

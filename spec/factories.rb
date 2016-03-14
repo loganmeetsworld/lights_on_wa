@@ -1,4 +1,14 @@
 FactoryGirl.define do
+  factory :expenditure do
+    date "MyString"
+    amount 1
+    candidate_id "MyString"
+    description "MyString"
+    city "MyString"
+    state "MyString"
+    zip "MyString"
+    instate false
+  end
   factory :user do
     username "test_user"
     uid "12345"

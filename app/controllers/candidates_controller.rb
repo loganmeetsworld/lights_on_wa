@@ -34,12 +34,22 @@ class CandidatesController < ApplicationController
     end
   end
 
+  def expenditures_data
+    candidate = Candidate.find(params[:id])
+    expenditures = candidate.expenditures.order('amount DESC')
+    min = params[:offset].to_i + 1
+    max = min + 1000
+    if params[:offset].to_i <= expenditures.length
+      expenditures_json = expenditures[min..max].as_json
+      render json: expenditures_json
+    else
+      render json: [], status: 204
+    end
+  end
+
   def show
     @candidate = Candidate.find(params[:id])
-    # first_one = @candidate.contributions.length * 0.01
-
     gon.contributions = @candidate.contributions.order('amount DESC').first(10)
-
     gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
   end
 

@@ -6,6 +6,7 @@ class Candidate < ActiveRecord::Base
   has_many :candidates_to_user
   has_many :users, through: :candidates_to_user
   has_many :contributions
+  has_many :expenditures
   validates_presence_of :name, :pdc_id, :pdc_id_year
   validates_uniqueness_of :pdc_id_year
 
@@ -54,6 +55,10 @@ class Candidate < ActiveRecord::Base
               c = Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, office_type: "statewide",party: party, raised: raised, spent: spent, debt: debt)
               if c.save 
                 puts "Saved a new candidate: " + c.pdc_id_year
+              else
+                c = Candidate.find_by(pdc_id_year: pdc_id + year)
+                c.raised = child.children[4].text[1..-1].gsub(",", "").to_f
+                c.spent = child.children[5].text[1..-1].gsub(",", "").to_f
               end
             when "legislative"
               dist   = child.children[2].text
@@ -66,6 +71,10 @@ class Candidate < ActiveRecord::Base
               c = Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, dist: dist, pos: pos, party: party, raised: raised, spent: spent, debt: debt, office: office, office_type: "legislative")
               if c.save 
                 puts "Saved a new candidate: " + c.pdc_id_year
+              else
+                c = Candidate.find_by(pdc_id_year: pdc_id + year)
+                c.raised = child.children[6].text[1..-1].gsub(",", "").to_f
+                c.spent = child.children[7].text[1..-1].gsub(",", "").to_f
               end
             when "judicial"
               office = child.children[2].text
@@ -76,6 +85,10 @@ class Candidate < ActiveRecord::Base
               c = Candidate.create(pdc_id_year: pdc_id + year, pdc_id: pdc_id, name: name, year: year, office: office, pos: pos, office_type: "judicial", raised: raised, spent: spent, debt: debt)
               if c.save 
                 puts "Saved a new candidate: " + c.pdc_id_year
+              else
+                c = Candidate.find_by(pdc_id_year: pdc_id + year)
+                c.raised = child.children[5].text[1..-1].gsub(",", "").to_f
+                c.spent = child.children[6].text[1..-1].gsub(",", "").to_f
               end
             end
           end

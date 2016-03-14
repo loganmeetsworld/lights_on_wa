@@ -1,6 +1,8 @@
 <div class="container">
 <% if current_user.candidates.empty? %>
   <h3>You have no candidates saved.</h3>
+  <%= current_user.last_seen_at %>
+  
   <% if flash[:error] %>
     <strong><p class='flash'><%=h flash[:error] %></p></strong>
   <% end %>
@@ -11,7 +13,6 @@
     <strong><p class='flash'><%=h flash[:error] %></p></strong>
   <% end %>
 
-  <h4>Compare Contributions Over Election Cycle</h4>
 
   <% count = 0 %>
   <% @candidates.each do |candidate| %>
@@ -21,7 +22,7 @@
     </li>
 
     <span class="<%= 'contributions' + count.to_s %>"></span>
-    <%= metrics_graphic_for Candidate.create_date_hash(candidate.contributions), target: "#{'.contributions' + count.to_s}", title: "", description: "This graphic shows a time-series of contributions.", width: 700, height: 300, x_accessor: 'date', y_accessor: 'value', time_format: '%Y-%m-%d' %>
+    <%= metrics_graphic_for Candidate.create_date_hash(candidate.contributions), target: "#{'.contributions' + count.to_s}", title: "", description: "This graphic shows a time-series of contributions.", width: 600, height: 200, x_accessor: 'date', y_accessor: 'value', time_format: '%Y-%m-%d' %>
 
     <% count += 1 %>
   <% end %> 

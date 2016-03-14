@@ -17,7 +17,7 @@ def save_csvs(url)
 end
 
 def read_out_csvs(ids)
-  contribution_types = ["contributions", "inkind"]
+  contribution_types = ["contributions", "inkind", "expenditures"]
   contribution_types.each do |contribution_type|
     ids.each do |key, elections|
       elections.each do |election|
