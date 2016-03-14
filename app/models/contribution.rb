@@ -156,7 +156,6 @@ class Contribution < ActiveRecord::Base
         end
       end
     end
-  end
     FileUtils.rm_rf(Dir.glob('new_csvs/*'))
   end
 end
