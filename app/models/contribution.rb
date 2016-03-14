@@ -3,8 +3,7 @@ require 'csv'
 
 class Contribution < ActiveRecord::Base
   belongs_to :candidate
-  belongs_to :contributor
-  validates :name, uniqueness: { scope: [:date, :cont_type, :candidate_id, :amount, :city, :state] }
+  validates :name, uniqueness: { scope: :date }
 
   def self.save_csvs(url)
     encoding  = "ISO-8859-1"
@@ -92,11 +91,13 @@ class Contribution < ActiveRecord::Base
 
     Dir.foreach('new_csvs/') do |item|
       next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
+      puts item
       key = nil
       election = nil
       csv = parse_csv('new_csvs/' + item)
 
       if !(csv == nil)
+        puts "not nil"
         if item.split("statewide").length > 1
           key = item.split("statewide")[0]
           election = item.split("statewide")[1].split(/(\d+)/)[1]
@@ -119,13 +120,21 @@ class Contribution < ActiveRecord::Base
         end
 
         if !(candidate.contributions.empty?)
+          puts candidate
           latest_date = candidate.contributions.max_by {|obj| obj.date }.date
+          puts latest_date
         else
-          break
+          puts "some reason candidate doesn't have contributions"
+          puts candidate
+          puts candidate.contributions
+          latest_date = "2000/1/1"
         end
 
+
         csv.each do |row|
-          while row[" Date"].to_date > latest_date.to_date
+          puts "Row's date " + row[" Date"]
+          puts "Latest: " + latest_date
+          if row[" Date"].to_date > latest_date.to_date
             row[" State"].include?("WA") ? instate = true : instate = false
             contribution_hash = {
               name:         row["Contributor"],
@@ -142,13 +151,12 @@ class Contribution < ActiveRecord::Base
               candidate_id: candidate
             }
         
-            contribution_array.push(Contribution.new(contribution_hash))
+            Contribution.create(contribution_hash)
           end
         end
       end
-    end    
-    Contribution.import(contribution_array)
-    puts Contribution.where("created_at >= ?", Time.zone.now.beginning_of_day)
+    end
+  end
     FileUtils.rm_rf(Dir.glob('new_csvs/*'))
   end
 end
