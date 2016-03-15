@@ -145,8 +145,8 @@ candidate_time = Time.now
 create_candidates()
 puts "Total time for just candidates seeding: " + (Time.now - candidate_time).to_s
 
-# create_contributions('csvs/part1/')
-# create_contributions('csvs/part2/')
+create_contributions('csvs/part1/')
+create_contributions('csvs/part2/')
 # create_contributions('csvs/part3/')
 # create_contributions('csvs/part4/')
-create_contributions('csvs/all/')
+# create_contributions('csvs/all/')
