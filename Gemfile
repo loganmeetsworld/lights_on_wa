@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 # Necessary rails things
+gem 'rack-canonical-host'
 gem 'rails', '4.2.5.1'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
