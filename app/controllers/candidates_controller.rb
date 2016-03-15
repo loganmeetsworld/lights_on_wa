@@ -4,9 +4,7 @@ class CandidatesController < ApplicationController
   end
 
   def index
-    gon.candidates = Rails.cache.fetch('gon.candidates') do 
-      Candidate.all
-    end
+    gon.candidates = Candidate.all
   end
 
   def data
