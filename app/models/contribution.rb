@@ -3,7 +3,6 @@ require 'csv'
 
 class Contribution < ActiveRecord::Base
   belongs_to :candidate
-  validates :name, uniqueness: { scope: :date }
 
   def self.save_csvs(url)
     encoding  = "ISO-8859-1"
