@@ -86,8 +86,11 @@ end
 def create_contributions(dir)
   values = nil
   contribution_array = []
+  count = 0
 
   Dir.foreach(dir) do |item|
+    puts count
+    count += 1
     # csv_time = Time.now
     puts item
     next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
