@@ -19,7 +19,7 @@ class Contribution < ActiveRecord::Base
   end
 
   def self.read_out_csvs(ids)
-    contribution_types = ["contributions", "inkind"]
+    contribution_types = ["contributions", "inkind", "expenditures"]
     contribution_types.each do |contribution_type|
       ids.each do |key, elections|
         elections.each do |election|
@@ -129,27 +129,45 @@ class Contribution < ActiveRecord::Base
           latest_date = "2000/1/1"
         end
 
-        csv.each do |row|
-          puts "Row's date " + row[" Date"]
-          puts "Latest: " + latest_date
-          if row[" Date"].to_date > latest_date.to_date
-            row[" State"].include?("WA") ? instate = true : instate = false
-            contribution_hash = {
-              name:         row["Contributor"],
+        if item.split("20")[1].split(/(\d+)/)[-1] == "expenditures"
+          csv.each do |row|
+            row[" State"] == " WA" ? instate = true : instate = false
+            expenditure_hash = {
+              name:         row["Vendor"],
               city:         row[" City"],
               state:        row[" State"],
               zip:          row[" Zip"],
-              employer:     row[" Employer"],
-              occupation:   row[" Occupation"],
               date:         row[" Date"],
               amount:       row[" Amount"],
               description:  row[" Description"],
-              cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
               instate:      instate,
               candidate_id: candidate.id
             }
-        
-            Contribution.create(contribution_hash)
+          end
+          Expenditure.create(expenditure_hash)
+        else
+          csv.each do |row|
+            puts "Row's date " + row[" Date"]
+            puts "Latest: " + latest_date
+            if row[" Date"].to_date > latest_date.to_date
+              row[" State"].include?("WA") ? instate = true : instate = false
+              contribution_hash = {
+                name:         row["Contributor"],
+                city:         row[" City"],
+                state:        row[" State"],
+                zip:          row[" Zip"],
+                employer:     row[" Employer"],
+                occupation:   row[" Occupation"],
+                date:         row[" Date"],
+                amount:       row[" Amount"],
+                description:  row[" Description"],
+                cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
+                instate:      instate,
+                candidate_id: candidate.id
+              }
+          
+              Contribution.create(contribution_hash)
+            end
           end
         end
       end
