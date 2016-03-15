@@ -44,4 +44,25 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  def self.notifications(user)
+    count = 0
+    user.candidates.each do |candidate|
+      if candidate.contributions.empty?
+        latest_contributions = user.created_at
+      else
+        latest_contributions = candidate.contributions.max_by {|obj| obj.created_at }.created_at
+      end
+      if candidate.expenditures.empty?
+        latest_expenditures = user.created_at
+      else
+        latest_expenditures = candidate.expenditures.max_by {|obj| obj.created_at }.created_at
+      end
+      if user.last_seen_at && (latest_contributions.to_date > user.last_seen_at || latest_expenditures.to_date > user.last_seen_at)
+        count += 1
+      end
+    end
+
+    return count
+  end
 end
