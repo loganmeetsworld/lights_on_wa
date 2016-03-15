@@ -179,7 +179,7 @@ def create_expenditures(dir)
       csv.each do |row|
         row[" State"] == " WA" ? instate = true : instate = false
         expenditure_hash = {
-          name:         row["Name"],
+          name:         row["Vendor"],
           city:         row[" City"],
           state:        row[" State"],
           zip:          row[" Zip"],
