@@ -139,14 +139,69 @@ def create_contributions(dir)
     end
   end  
   Contribution.import(contribution_array)
+  contribution_array = []
 end
 
-candidate_time = Time.now
-create_candidates()
-puts "Total time for just candidates seeding: " + (Time.now - candidate_time).to_s
+def create_expenditures(dir)
+  values = nil
+  expenditure_array = []
+  count = 0
 
+  Dir.foreach(dir) do |item|
+    puts count
+    count += 1
+    # csv_time = Time.now
+    puts item
+    next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
+
+    key = nil
+    election = nil
+
+    csv = parse_csv(dir + item)
+
+    if !(csv == nil)
+      if item.split("statewide").length > 1
+        key = item.split("statewide")[0]
+        election = item.split("statewide")[1].split(/(\d+)/)[1]
+      elsif item.split("legislative").length > 1
+        key = item.split("legislative")[0]
+        election = item.split("legislative")[1].split(/(\d+)/)[1]
+      elsif item.split('judicial').length > 1
+        key = item.split("judicial")[0]
+        election = item.split("judicial")[1].split(/(\d+)/)[1]
+      else
+        puts "THIS WAS NIL"
+        exit!
+      end
+
+      candidate = Candidate.find_by(pdc_id_year: key + election).id
+
+      csv.each do |row|
+        row[" State"] == " WA" ? instate = true : instate = false
+        expenditure_hash = {
+          name:         row["Name"],
+          city:         row[" City"],
+          state:        row[" State"],
+          zip:          row[" Zip"],
+          date:         row[" Date"],
+          amount:       row[" Amount"],
+          description:  row[" Description"],
+          instate:      instate,
+          candidate_id: candidate
+        }
+    
+        expenditure_array.push(Expenditure.new(expenditure_hash))
+      end
+    end
+  end  
+  Expenditure.import(expenditure_array)
+  expenditure_array = []
+end
+
+create_candidates()
 create_contributions('csvs/part1/')
 create_contributions('csvs/part2/')
+create_expenditures('csvs/expenditures/')
 # create_contributions('csvs/part3/')
 # create_contributions('csvs/part4/')
 # create_contributions('csvs/all/')
