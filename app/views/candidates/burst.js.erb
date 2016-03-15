@@ -1,3 +1,5 @@
+$("li#contributions").removeClass('active');
+$("li#expenditures").removeClass('active');
 $("li#line-graph").removeClass('active');
 $("li#sunburst-graph").addClass('active');
 $("#content").html('<%=j render :partial=>'shared/candidate_burst' %>');

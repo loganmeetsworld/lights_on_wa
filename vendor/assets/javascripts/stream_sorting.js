@@ -3,9 +3,12 @@ var st; //For debuggin only
 $(document).ready(function(){
   if ($('h2').text().includes("Start Exploring Campaign Finance in WA State")) {
     tablehook(gon.candidates.slice(0, 100), 'data');
-  } else if ($('h2').text().includes("Expenditures")) {
-    tablehook(gon.contributions, 'contributions_data');
-  } else if ($('h2').text().includes("RACE")) {
+    console.log("mainpage");
+  } else if ($('h3').text().includes("Expenditures")) {
+    console.log("expenditures");
+    tablehook(gon.expenditures, 'expenditures_data');
+  } else if ($('h3').text().includes("Contributions")) {
+    console.log("contributions");
     tablehook(gon.contributions, 'contributions_data');
   };
 });
@@ -13,16 +16,6 @@ $(document).ready(function(){
 var tablehook = function(data, data_url) {
   var html = $.trim($("#template").html())
   var template = Mustache.compile(html)
-  // if ($('h2').text().includes("Start Exploring Campaign Finance in WA State")) {
-  //   var data = gon.candidates.slice(0, 100), html = $.trim($("#template").html()), template = Mustache.compile(html);
-  //   var data_url = 'data'
-  // } else if ($('h2').text().includes("RACE")) {
-  //   var data = gon.contributions, html = $.trim($("#template").html()), template = Mustache.compile(html);
-  //   var data_url = 'contributions_data'
-  // } else {
-  //   console.log("no data needed for table");
-  // };
-  
   var view = function(record, index){
     record.money_raised = accounting.formatMoney(record.raised);
     record.money_spent = accounting.formatMoney(record.spent);

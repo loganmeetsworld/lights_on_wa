@@ -47,6 +47,12 @@ class CandidatesController < ApplicationController
     end
   end
 
+  def expenditures
+    @candidate = Candidate.find(params[:id])
+    gon.expenditures = @candidate.expenditures.order('amount DESC').first(10)
+    gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
+  end
+
   def show
     @candidate = Candidate.find(params[:id])
     gon.contributions = @candidate.contributions.order('amount DESC').first(10)

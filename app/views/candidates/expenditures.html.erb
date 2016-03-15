@@ -29,8 +29,8 @@
       <div class="col-lg-12">
         <div class="row-fluid">
           <ul class="nav nav-tabs">
-            <li id="contributions" class="active"><%= link_to "Cash and Inkind Contributions", candidate_path(@candidate) %></li>
-            <li id="expenditures"><%= link_to "Expenditures", expenditures_path(@candidate) %></li>
+            <li id="contributions"><%= link_to "Cash and Inkind Contributions", candidate_path(@candidate) %></li>
+            <li id="contributions" class="active"><%= link_to "Expenditures", expenditures_path(@candidate) %></li>
             <li id="line-graph"><%= link_to "View a Line Graph of Contributions", {:controller => "candidates", :action => "line", :id => @candidate.id}, :remote => true %></li>
             <li id="sunburst-graph"><%= link_to "View a Sunburst Graph By Location", {:controller => "candidates", :action => "burst", :id => @candidate.id}, :remote => true, id: "test_burst" %></li>
             <li id="clear"><%= fa_icon "angle-double-up" %></li>
@@ -41,7 +41,7 @@
           </div>
         </div>
         <br>
-        <%= render partial: "shared/contribution_table", cached: true %>
+        <%= render partial: "shared/expenditure_table" %>
       </div>
     </div>
   </div>

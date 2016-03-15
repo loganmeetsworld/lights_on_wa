@@ -1,3 +1,5 @@
+$("li#contributions").removeClass('active');
+$("li#expenditures").removeClass('active');
 $("li#sunburst-graph").removeClass('active');
 $("li#line-graph").addClass('active');
 $("#visual").html('<%=j render :partial=>'shared/candidate_line', :locals => {span: "visual", object: @date_amounts,target: "#visual", title: "Contributions Over #{@candidate.year} Election", description: "This graphic shows a time-series of contributions for #{@candidate.name} over the #{@candidate.year} #{@candidate.office.titlecase} election period."} %>');
