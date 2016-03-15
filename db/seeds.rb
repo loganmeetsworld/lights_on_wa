@@ -66,6 +66,7 @@ def create_candidates
       end
     end
   end
+  pages = nil
 end
 
 def parse_csv(file)
@@ -202,6 +203,3 @@ create_candidates()
 create_contributions('csvs/part1/')
 create_contributions('csvs/part2/')
 create_expenditures('csvs/expenditures/')
-# create_contributions('csvs/part3/')
-# create_contributions('csvs/part4/')
-# create_contributions('csvs/all/')
