@@ -84,6 +84,7 @@ class Contribution < ActiveRecord::Base
   end
 
   def self.cron_job
+    FileUtils.rm_rf(Dir.glob('new_csvs/*'))
     Contribution.collect_csvs()
     values = nil
     contribution_array = []
@@ -131,20 +132,25 @@ class Contribution < ActiveRecord::Base
 
         if item.split("20")[1].split(/(\d+)/)[-1] == "expenditures"
           csv.each do |row|
-            row[" State"] == " WA" ? instate = true : instate = false
-            expenditure_hash = {
-              name:         row["Vendor"],
-              city:         row[" City"],
-              state:        row[" State"],
-              zip:          row[" Zip"],
-              date:         row[" Date"],
-              amount:       row[" Amount"],
-              description:  row[" Description"],
-              instate:      instate,
-              candidate_id: candidate.id
-            }
+            puts "Row's date " + row[" Date"]
+            puts "Latest: " + latest_date
+            if row[" Date"].to_date > latest_date.to_date
+              row[" State"] == " WA" ? instate = true : instate = false
+              expenditure_hash = {
+                name:         row["Vendor"],
+                city:         row[" City"],
+                state:        row[" State"],
+                zip:          row[" Zip"],
+                date:         row[" Date"],
+                amount:       row[" Amount"],
+                description:  row[" Description"],
+                instate:      instate,
+                candidate_id: candidate.id
+              }
+          
+              Expenditure.create(expenditure_hash)
+            end
           end
-          Expenditure.create(expenditure_hash)
         else
           csv.each do |row|
             puts "Row's date " + row[" Date"]
