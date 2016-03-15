@@ -1,5 +1,4 @@
-set :output, "#{path}/log/daily_jobs.log"
-env :PATH, ENV['PATH']
+set :output, {:error => "#{path}/log/error.log", :standard => "#{path}/log/cron.log"}
 
 every 1.day, :at => '2:40 pm' do
   runner "Candidate.cron_job"
