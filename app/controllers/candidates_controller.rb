@@ -34,11 +34,12 @@ class CandidatesController < ApplicationController
 
   def expenditures_data
     candidate = Candidate.find(params[:id])
-    expenditures = candidate.expenditures.order('amount DESC')
-    min = params[:offset].to_i + 1
-    max = min + 1000
+      min = params[:offset].to_i + 1
+    max = 1000
+    expenditures = candidate.expenditures.order('amount DESC').offset(min).limit(max)
+
     if params[:offset].to_i <= expenditures.length
-      expenditures_json = expenditures[min..max].as_json
+      expenditures_json = expenditures.as_json
       render json: expenditures_json
     else
       render json: [], status: 204
@@ -65,7 +66,7 @@ class CandidatesController < ApplicationController
     end
   end
 
-  def burst    
+  def burst
     @candidate = Candidate.find(params[:id])
     respond_to do |format|
       format.js
