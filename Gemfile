@@ -28,6 +28,9 @@ gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'omniauth-github'
 gem 'omniauth-twitter'
 
+# Caching
+gem 'dalli'
+
 # Styling and behavioral
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
