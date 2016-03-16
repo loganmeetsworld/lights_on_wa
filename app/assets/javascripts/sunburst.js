@@ -9,8 +9,8 @@ $(document).ready(function(){
 var zoomBurst = function(root_data, child) {
   var root = {"name": "All Candidates", "children": root_data}
 
-  var width = 750,
-      height = 500;
+  var width = 670,
+      height = 430;
       radius = Math.min(width, height) / 2;
 
   var x = d3.scale.linear()
