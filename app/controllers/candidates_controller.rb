@@ -4,15 +4,11 @@ class CandidatesController < ApplicationController
   end
 
   def index
-    gon.candidates = Rails.cache.fetch('gon.candidates') do 
-      Candidate.all
-    end
+    gon.candidates = Candidate.all
   end
 
   def data
-    candidates = Rails.cache.fetch('gon.candidates') do 
-      Candidate.all
-    end
+    candidates = Candidate.all
     min = params[:offset].to_i + 1
     max = min + params[:limit].to_i
     if params[:offset].to_i <= candidates.length
@@ -29,9 +25,7 @@ class CandidatesController < ApplicationController
     max = 1000
     contributions = candidate.contributions.order('amount DESC').offset(min).limit(max)
     if params[:offset].to_i <= candidate.contributions.length
-      contribution_json = Rails.cache.fetch(contributions.first.id.to_s) do
-        contributions.as_json
-      end
+      contribution_json = contributions.as_json
       render json: contribution_json
     else
       render json: [], status: 204
@@ -45,9 +39,7 @@ class CandidatesController < ApplicationController
     expenditures = candidate.expenditures.order('amount DESC').offset(min).limit(max)
 
     if params[:offset].to_i <= candidate.expenditures.length
-      expenditure_json = Rails.cache.fetch(expenditures.first.id.to_s) do
-        expenditures.as_json
-      end
+      expenditure_json = expenditures.as_json
       render json: expenditures_json
     else
       render json: [], status: 204
