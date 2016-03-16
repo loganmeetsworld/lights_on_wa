@@ -4,13 +4,15 @@ class CandidatesController < ApplicationController
   end
 
   def index
-    Rails.cache.fetch('gon.candidates') do 
-      gon.candidates = Candidate.all
+    gon.candidates = Rails.cache.fetch('gon.candidates') do 
+      Candidate.all
     end
   end
 
   def data
-    candidates = Candidate.all
+    candidates = Rails.cache.fetch('gon.candidates') do 
+      Candidate.all
+    end
     min = params[:offset].to_i + 1
     max = min + params[:limit].to_i
     if params[:offset].to_i <= candidates.length
@@ -51,16 +53,16 @@ class CandidatesController < ApplicationController
   def expenditures
     @candidate = Candidate.find(params[:id])
     gon.expenditures = @candidate.expenditures.order('amount DESC').first(10)
-    Rails.cache.fetch(@candidate.pdc_id_year + "sunburst") do
-      gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
+    gon.candidate_sunburst_data = Rails.cache.fetch(@candidate.pdc_id_year + "sunburst") do
+      Candidate.get_sunburst_data(@candidate)
     end
   end
 
   def show
     @candidate = Candidate.find(params[:id])
     gon.contributions = @candidate.contributions.order('amount DESC').first(10)
-    Rails.cache.fetch(@candidate.pdc_id_year + "sunburst") do
-      gon.candidate_sunburst_data = Candidate.get_sunburst_data(@candidate)
+    gon.candidate_sunburst_data = Rails.cache.fetch(@candidate.pdc_id_year + "sunburst") do
+      Candidate.get_sunburst_data(@candidate)
     end
   end
 
