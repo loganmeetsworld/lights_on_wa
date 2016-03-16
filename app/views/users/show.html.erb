@@ -1,8 +1,6 @@
 <div class="container">
 <% if current_user.candidates.empty? %>
-  <h3>You have no candidates saved.</h3>
-  <%= current_user.last_seen_at %>
-  
+  <h3>You have no candidates saved.</h3>  
   <% if flash[:error] %>
     <strong><p class='flash'><%=h flash[:error] %></p></strong>
   <% end %>
@@ -14,17 +12,11 @@
   <% end %>
 
 
-  <% count = 0 %>
   <% @candidates.each do |candidate| %>
     <li>
       <%= link_to candidate.name, candidate_path(candidate) %> (<%= candidate.year %> <%= candidate.office %> Race)
       <%= link_to "Unfollow", candidate_path(candidate), method: "delete", class: "btn btn-default gray-btn" %>
     </li>
-
-    <span class="<%= 'contributions' + count.to_s %>"></span>
-    <%= metrics_graphic_for Candidate.create_date_hash(candidate.contributions), target: "#{'.contributions' + count.to_s}", title: "", description: "This graphic shows a time-series of contributions.", width: 600, height: 200, x_accessor: 'date', y_accessor: 'value', time_format: '%Y-%m-%d' %>
-
-    <% count += 1 %>
   <% end %> 
 <% end %>
 </div>

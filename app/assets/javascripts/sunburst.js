@@ -55,7 +55,7 @@ var zoomBurst = function(root_data, child) {
       div.transition()
         .duration(200)
         .style("opacity", .9);
-      div.html("Location: " + d.name + "<br/>Number of Contributions: " + d.num_donations + "<br/>Total Amount of Contributions: " + "$" + d.amount.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'))
+      div.html("Name: " + d.name + "<br/>Number of Contributions: " + d.num_donations + "<br/>Total Amount of Contributions: " + "$" + d.amount.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'))
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY) + "px");
     })

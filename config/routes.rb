@@ -1,28 +1,23 @@
 Rails.application.routes.draw do
-  # Static pages
+  # Static pages and home page
   root 'candidates#index'
   get 'about' => 'welcome#about', :as => :about
 
+  # SSL verification
   get "/.well-known/acme-challenge/#{ENV['LE_AUTH_REQUEST']}", to: 'candidates#letsencrypt'
 
-  # json endpoints
+  # JSON endpoints
   get 'candidates/:id/expenditures_data/' => 'candidates#expenditures_data', :as => :expenditures_data
   get 'candidates/contributions_data/' => 'candidates#contributions_data', :as => :contributions_data
-
   get 'data' => 'candidates#data'
 
   # Candidates and users' pages
   resources 'candidates', only: [:index, :show, :destroy]
   post 'candidates/:id' => 'candidates#save', :as => :save
   get 'candidates/:id/expenditures' => 'candidates#expenditures', :as => :expenditures
-
   resources 'users', only: :show
 
-
-  get 'cash/:id' => 'candidates#cash'
-  get 'inkind/:id' => 'candidates#inkind'
-  get 'expenditures/:id' => 'candidates#expenditures'
-
+  # AJAX calls for graphics
   get 'line/:id' => 'candidates#line'
   get 'burst/:id' => 'candidates#burst'
 
