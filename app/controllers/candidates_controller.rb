@@ -29,7 +29,9 @@ class CandidatesController < ApplicationController
     max = 1000
     contributions = candidate.contributions.order('amount DESC').offset(min).limit(max)
     if params[:offset].to_i <= candidate.contributions.length
-      contribution_json = contributions.as_json
+      contribution_json = Rails.cache.fetch(candidate.pdc_id_year + min.to_s) do
+        contributions.as_json
+      end
       render json: contribution_json
     else
       render json: [], status: 204
@@ -43,7 +45,9 @@ class CandidatesController < ApplicationController
     expenditures = candidate.expenditures.order('amount DESC').offset(min).limit(max)
 
     if params[:offset].to_i <= candidate.expenditures.length
-      expenditures_json = expenditures.as_json
+      expenditure_json = Rails.cache.fetch(candidate.pdc_id_year + min.to_s) do
+        expenditures.as_json
+      end
       render json: expenditures_json
     else
       render json: [], status: 204
