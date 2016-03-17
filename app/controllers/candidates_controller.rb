@@ -20,13 +20,14 @@ class CandidatesController < ApplicationController
   end
 
   def contributions_data
-    candidate = Candidate.find(params[:id])
+  candidate = Candidate.find(params[:id])
     min = params[:offset].to_i + 1
     max = 1000
     contributions = candidate.contributions.order('amount DESC').offset(min).limit(max)
+
     if params[:offset].to_i <= candidate.contributions.length
-      contribution_json = contributions.as_json
-      render json: contribution_json
+      contributions_json = contributions.as_json
+      render json: contributions_json
     else
       render json: [], status: 204
     end
@@ -39,7 +40,7 @@ class CandidatesController < ApplicationController
     expenditures = candidate.expenditures.order('amount DESC').offset(min).limit(max)
 
     if params[:offset].to_i <= candidate.expenditures.length
-      expenditure_json = expenditures.as_json
+      expenditures_json = expenditures.as_json
       render json: expenditures_json
     else
       render json: [], status: 204
