@@ -20,7 +20,7 @@ class CandidatesController < ApplicationController
   end
 
   def contributions_data
-  candidate = Candidate.find(params[:id])
+    candidate = Candidate.find(params[:id])
     min = params[:offset].to_i + 1
     max = 1000
     contributions = candidate.contributions.order('amount DESC').offset(min).limit(max)
@@ -57,7 +57,7 @@ class CandidatesController < ApplicationController
 
   def show
     @candidate = Candidate.find(params[:id])
-    gon.contributions = @candidate.contributions.order('amount DESC').first(10)
+    gon.contributions = @candidate.contributions.order('amount DESC').first
     gon.candidate_sunburst_data = Rails.cache.fetch(@candidate.pdc_id_year + "sunburst") do
       Candidate.get_sunburst_data(@candidate)
     end
