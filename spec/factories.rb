@@ -13,6 +13,7 @@ FactoryGirl.define do
     username "test_user"
     uid "12345"
     provider "github"
+    last_seen_at Time.now
   end
 
   factory :candidate do

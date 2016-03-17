@@ -94,10 +94,10 @@ RSpec.describe Candidate, type: :model do
     end
   end
 
-  describe "#self.cron_job" do 
-    it "creates a candidate if one is available" do 
-      Candidate.cron_job()
-      expect(Candidate.all.last.created_at.day).to eq Time.now.day 
-    end
-  end
+  # describe "#self.cron_job" do 
+  #   it "creates a candidate if one is available" do 
+  #     Candidate.cron_job()
+  #     expect(Candidate.all.last.created_at.day).to eq Time.now.day 
+  #   end
+  # end
 end
