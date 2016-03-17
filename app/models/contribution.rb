@@ -78,7 +78,6 @@ class Contribution < ActiveRecord::Base
     rescue SocketError
       puts "socket error"
     rescue CSV::MalformedCSVError
-      puts file
       puts "rescued a malformed CSV"
     end
     return data
@@ -92,13 +91,11 @@ class Contribution < ActiveRecord::Base
 
     Dir.foreach('new_csvs/') do |item|
       next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
-      puts item
       key = nil
       election = nil
       csv = parse_csv('new_csvs/' + item)
 
       if !(csv == nil)
-        puts "not nil"
         if item.split("statewide").length > 1
           key = item.split("statewide")[0]
           election = item.split("statewide")[1].split(/(\d+)/)[1]
@@ -121,20 +118,13 @@ class Contribution < ActiveRecord::Base
         end
 
         if !(candidate.contributions.empty?)
-          puts candidate
           latest_date = candidate.contributions.max_by {|obj| obj.date }.date
-          puts latest_date
         else
-          puts "some reason candidate doesn't have contributions"
-          puts candidate
-          puts candidate.contributions
           latest_date = "2000/1/1"
         end
 
         if item.split("20")[1].split(/(\d+)/)[-1] == "expenditures"
           csv.each do |row|
-            puts "Row's date " + row[" Date"]
-            puts "Latest: " + latest_date
             if row[" Date"].to_date > latest_date.to_date
               row[" State"] == " WA" ? instate = true : instate = false
               expenditure_hash = {
@@ -154,8 +144,6 @@ class Contribution < ActiveRecord::Base
           end
         else
           csv.each do |row|
-            puts "Row's date " + row[" Date"]
-            puts "Latest: " + latest_date
             if row[" Date"].to_date > latest_date.to_date
               row[" State"].include?("WA") ? instate = true : instate = false
               contribution_hash = {
