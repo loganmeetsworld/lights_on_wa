@@ -57,7 +57,7 @@ class CandidatesController < ApplicationController
 
   def show
     @candidate = Candidate.find(params[:id])
-    gon.contributions = @candidate.contributions.order('amount DESC').first
+    gon.contributions = @candidate.contributions.order('amount DESC').first(10)
     gon.candidate_sunburst_data = Rails.cache.fetch(@candidate.pdc_id_year + "sunburst") do
       Candidate.get_sunburst_data(@candidate)
     end

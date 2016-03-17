@@ -20,11 +20,7 @@
           <li id="login"><a><i class="fa fa-sign-in fa-fw"></i> LOGIN</a></li>
         <% else %>
           <li class=""><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> LOGOUT</a></li>
-          <% if User.notifications(current_user) > 0 %>
-            <li class=""><a href="/users/<%= current_user.id %>"><span class="label label-danger"><%= User.notifications(current_user) %></span> ACCOUNT</a></li>
-          <% else %>
             <li class=""><a href="/users/<%= current_user.id %>">ACCOUNT</a></li>
-          <% end %>
         <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
