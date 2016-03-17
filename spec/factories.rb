@@ -1,19 +1,20 @@
 FactoryGirl.define do
   factory :expenditure do
-    date "MyString"
+    date Time.now
     amount 1
-    candidate_id "MyString"
+    candidate_id 1
     description "MyString"
     city "MyString"
     state "MyString"
     zip "MyString"
     instate false
   end
+
   factory :user do
     username "test_user"
     uid "12345"
     provider "github"
-    last_seen_at Time.now
+    last_seen_at Time.now - 1
   end
 
   factory :candidate do
@@ -30,7 +31,7 @@ FactoryGirl.define do
   end
 
   factory :contribution do
-    date "2000/04/01"
+    date Time.now
     amount 300
     candidate_id 1
     cont_type "inkind"

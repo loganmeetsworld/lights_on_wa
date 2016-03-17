@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
   let(:user) { build(:user) }
+  let(:candidate) { create(:candidate) }
+  let(:contribution) { build(:contribution) }
+  let(:expenditure) { build(:expenditure) }
 
   describe "GET #create" do
     context "when using github authentication" do
@@ -62,6 +65,40 @@ RSpec.describe SessionsController, type: :controller do
           expect(session[:user_id]).to eq nil
         end
       end
+    end
+  end
+
+  describe "#self.notifcations" do 
+    it "retrieves 0 when no notifcations" do
+      user.save
+      expect(User.notifications(user)).to eq 0
+    end
+
+    it "returns 0 if no contributions" do 
+      user.save
+      user.candidates << candidate
+      expect(user.candidates.length).to eq 1
+      expect(user.candidates.first.contributions.length).to eq 0
+      expect(User.notifications(user)).to eq 0
+    end
+
+    it "returns lastest if expenditures exist" do 
+      user.save
+      expenditure.save
+      user.candidates << candidate
+      expect(user.candidates.length).to eq 1
+      expect(user.candidates.first.expenditures.length).to eq 1
+      expect(User.notifications(user)).to eq 0
+    end
+
+    it "retrieves notifications when there are some" do
+      user.save
+      user.candidates << candidate
+      user.last_seen_at = "2016/1/1"
+      contribution.save
+      expect(user.candidates.length).to eq 1
+      expect(user.candidates.first.contributions.length).to eq 1
+      expect(User.notifications(user)).to eq 1
     end
   end
 end

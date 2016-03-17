@@ -6,16 +6,6 @@ class User < ActiveRecord::Base
     user = self.find_by(uid: auth_hash["uid"], provider: auth_hash["provider"] )
     if !user.nil?
       return user
-    elsif auth_hash["provider"] == "developer"
-      user            = User.new
-      user.uid        = auth_hash["uid"]
-      user.provider   = auth_hash["provider"]
-      user.username   = auth_hash["info"]["username"]
-      if user.save
-        return user
-      else
-        return nil
-      end
     elsif auth_hash["provider"] == "github"
       user            = User.new
       user.uid        = auth_hash["uid"]
@@ -58,6 +48,7 @@ class User < ActiveRecord::Base
       else
         latest_expenditures = candidate.expenditures.max_by {|obj| obj.created_at }.created_at
       end
+
       if user.last_seen_at && (latest_contributions.to_date > user.last_seen_at || latest_expenditures.to_date > user.last_seen_at)
         count += 1
       end

@@ -54,10 +54,32 @@ RSpec.describe CandidatesController, type: :controller do
     end
   end
 
+  describe "GET #expenditures_data" do 
+    it "succesfully gets page" do 
+      session[:user_id] = user.id
+      get :expenditures_data, id: candidate.id
+      expect(response).to be_successful
+      expect(response.status).to eq 200
+    end
+
+    it "renders json" do 
+      session[:user_id] = user.id
+      get :expenditures_data, id: candidate.id
+      expect(response.body.class).to be String
+    end
+  end
+
   describe "GET #show" do
     it "renders show view" do
       get :show, id: candidate.id
       expect(response).to render_template :show
+    end
+  end
+
+  describe "GET #expenditures" do
+    it "renders expenditures view" do
+      get :expenditures, id: candidate.id
+      expect(response).to render_template :expenditures
     end
   end
 
