@@ -44,6 +44,8 @@ gem 'metrics-graphics-rails'
 # Web Scraping
 gem 'crack', '~> 0.4.3'
 gem 'rest-client', '~> 1.8'
+gem 'nokogiri', '~> 1.6', '>= 1.6.8'
+gem 'open_uri_redirections'
 
 group :production do
   gem 'mysql2', '~> 0.3.18'

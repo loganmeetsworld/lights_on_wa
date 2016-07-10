@@ -3,7 +3,7 @@ ids = eval(File.read("ids"))
 def find_candidate_contacts(ids)
   ids.each do |key, elections|
     elections.each do |election|
-      url = "http://www.pdc.wa.gov/MvcQuerySystem/CandidateData/contributions?param=#{key}====&year=#{election[0]}&type=#{election[1]}"
+      url = "https://www.pdc.wa.gov/MvcQuerySystem/CandidateData/contributions?param=#{key}====&year=#{election[0]}&type=#{election[1]}"
 
       candidate = Candidate.find_by(pdc_id_year: key + election[0])
       page = Nokogiri::HTML(RestClient.get(url))

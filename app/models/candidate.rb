@@ -15,18 +15,18 @@ class Candidate < ActiveRecord::Base
     pages = Array.new
 
     offices.each do |office|
-      url = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}"
+      url = "https://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}"
 
       page = Nokogiri::HTML(RestClient.get(url))
       years =  page.css('#YearList')[0].text.split("\r\n").select{|year| year.to_i >= Time.now.year}
 
       years.each do |year|
-        url_with_year = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}"
+        url_with_year = "https://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}"
         page_with_year = Nokogiri::HTML(RestClient.get(url_with_year))
         num_pages = (page_with_year.css('.t-status-text').text.split(' ')[-1].to_i / 15.0).ceil
 
         (1..num_pages).to_a.each do |n|
-          page_url = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}&page=#{n}"
+          page_url = "https://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}&page=#{n}"
           pages << Nokogiri::HTML(RestClient.get(page_url))
         end
       end

@@ -7,18 +7,18 @@ def load_pages
   pages = Array.new
 
   offices.each do |office|
-    url = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}"
-
+    url = "https://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}"
+    puts office
     page = Nokogiri::HTML(RestClient.get(url))
     years =  page.css('#YearList')[0].text.split("\r\n")
 
     years.each do |year|
-      url_with_year = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}"
+      url_with_year = "https://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}"
       page_with_year = Nokogiri::HTML(RestClient.get(url_with_year))
       num_pages = (page_with_year.css('.t-status-text').text.split(' ')[-1].to_i / 15.0).ceil
 
       (1..num_pages).to_a.each do |n|
-        page_url = "http://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}&page=#{n}"
+        page_url = "https://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}?year=#{year}&page=#{n}"
         pages << Nokogiri::HTML(RestClient.get(page_url))
       end
     end
@@ -72,8 +72,8 @@ end
 def parse_csv(file)
   encoding  = "ISO-8859-1"
   begin
-    my_header = CSV.parse(open(file, "rb:#{encoding}")).drop(4).first # is read necessary here? 
-    data      = CSV.parse(open(file, "rb:#{encoding}"), :headers => my_header).drop(5)
+    my_header = CSV.parse(open(file, "rb:#{encoding}", :allow_redirections => :all)).drop(4).first # is read necessary here? 
+    data      = CSV.parse(open(file, "rb:#{encoding}", :allow_redirections => :all), :headers => my_header).drop(5)
   rescue SocketError
     puts file
     puts "socket error"
@@ -116,26 +116,28 @@ def create_contributions(dir)
         exit!
       end
 
-      candidate = Candidate.find_by(pdc_id_year: key + election).id
+      if Candidate.find_by(pdc_id_year: key + election) != nil
+        candidate = Candidate.find_by(pdc_id_year: key + election).id
 
-      csv.each do |row|
-        row[" State"] == " WA" ? instate = true : instate = false
-        contribution_hash = {
-          name:         row["Contributor"],
-          city:         row[" City"],
-          state:        row[" State"],
-          zip:          row[" Zip"],
-          employer:     row[" Employer"],
-          occupation:   row[" Occupation"],
-          date:         row[" Date"],
-          amount:       row[" Amount"],
-          description:  row[" Description"],
-          cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
-          instate:      instate,
-          candidate_id: candidate
-        }
-    
-        contribution_array.push(Contribution.new(contribution_hash))
+        csv.each do |row|
+          row[" State"] == " WA" ? instate = true : instate = false
+          contribution_hash = {
+            name:         row["Contributor"],
+            city:         row[" City"],
+            state:        row[" State"],
+            zip:          row[" Zip"],
+            employer:     row[" Employer"],
+            occupation:   row[" Occupation"],
+            date:         row[" Date"],
+            amount:       row[" Amount"],
+            description:  row[" Description"],
+            cont_type:    item.split("20")[1].split(/(\d+)/)[-1],
+            instate:      instate,
+            candidate_id: candidate
+          }
+          puts contribution_hash
+          contribution_array.push(Contribution.new(contribution_hash))
+        end
       end
     end
   end  
