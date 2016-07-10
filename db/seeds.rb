@@ -8,7 +8,6 @@ def load_pages
 
   offices.each do |office|
     url = "https://www.pdc.wa.gov/MvcQuerySystem/Candidate/#{office}"
-    puts office
     page = Nokogiri::HTML(RestClient.get(url))
     years =  page.css('#YearList')[0].text.split("\r\n")
 
@@ -90,10 +89,7 @@ def create_contributions(dir)
   count = 0
 
   Dir.foreach(dir) do |item|
-    puts count
     count += 1
-    # csv_time = Time.now
-    puts item
     next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
 
     key = nil
@@ -135,7 +131,6 @@ def create_contributions(dir)
             instate:      instate,
             candidate_id: candidate
           }
-          puts contribution_hash
           contribution_array.push(Contribution.new(contribution_hash))
         end
       end
@@ -151,10 +146,7 @@ def create_expenditures(dir)
   count = 0
 
   Dir.foreach(dir) do |item|
-    puts count
     count += 1
-    # csv_time = Time.now
-    puts item
     next if item == '.' or item == '..' or item == '.DS_Store' or item == "old"
 
     key = nil
