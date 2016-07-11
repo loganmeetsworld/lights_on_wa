@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'about' => 'welcome#about', :as => :about
 
   # SSL verification
-  get "/.well-known/acme-challenge/#{ENV['LE_AUTH_REQUEST']}", to: 'candidates#letsencrypt'
+  get "/.well-known/acme-challenge/#{ENV['LE_AUTH_REQUEST']}", to: 'welcome#letsencrypt'
 
   # JSON endpoints
   get 'candidates/:id/expenditures_data/' => 'candidates#expenditures_data', :as => :expenditures_data
