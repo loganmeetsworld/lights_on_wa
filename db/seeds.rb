@@ -169,23 +169,25 @@ def create_expenditures(dir)
         exit!
       end
 
-      candidate = Candidate.find_by(pdc_id_year: key + election).id
+      if Candidate.find_by(pdc_id_year: key + election) != nil
+        candidate = Candidate.find_by(pdc_id_year: key + election).id
 
-      csv.each do |row|
-        row[" State"] == " WA" ? instate = true : instate = false
-        expenditure_hash = {
-          name:         row["Vendor"],
-          city:         row[" City"],
-          state:        row[" State"],
-          zip:          row[" Zip"],
-          date:         row[" Date"],
-          amount:       row[" Amount"],
-          description:  row[" Description"],
-          instate:      instate,
-          candidate_id: candidate
-        }
-    
-        expenditure_array.push(Expenditure.new(expenditure_hash))
+        csv.each do |row|
+          row[" State"] == " WA" ? instate = true : instate = false
+          expenditure_hash = {
+            name:         row["Vendor"],
+            city:         row[" City"],
+            state:        row[" State"],
+            zip:          row[" Zip"],
+            date:         row[" Date"],
+            amount:       row[" Amount"],
+            description:  row[" Description"],
+            instate:      instate,
+            candidate_id: candidate
+          }
+      
+          expenditure_array.push(Expenditure.new(expenditure_hash))
+        end
       end
     end
   end  
